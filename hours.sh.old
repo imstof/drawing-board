@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+#Script to submit payroll hours for MGHPCC
+
+#Prompt for date, start, and end times
+echo "Enter date: "
+read date
+echo "Enter start time: "
+read startt
+echo "Enter end time: "
+read end
+
+#Calculate hours
+
