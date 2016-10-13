@@ -29,31 +29,30 @@ else  #Get dir, start, and end dates. If ~/Documents use today
 		dir=~/Documents/Hours-$(date +"%Y")/$(date +"%m")/
 		if [ -e ~/Documents/$edate-cehnstrom ]
 		then
-			cat ~/Documents/$(date +"%Y-%m-%d")-cehnstrom | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
-			cat ~/Documents/$(date +"%Y-%m-%d")-cehnstrom | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
-			for file in $dir; do
-				if [ $(echo $file | cut -d'-' -f1-3) == $(echo $sdate) ] || [ $(echo $file | cut -d'-' -f1-3) > $(echo $sdate) ] && [ $(echo $file | cut -d'-' -f1-3) < $edate ]
+			cat ~/Documents/$edate-cehnstrom | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
+			cat ~/Documents/$edate-cehnstrom | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
+			for file in $dir*; do
+				file2=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
+				if [[ $(echo $file2) == $(echo $sdate)  ||  $(echo $file2) > $(echo $sdate)  &&  $(echo $file2) < $(echo $edate) ]]
 				then
-					cat file | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
-					cat file | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
+					cat $file | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
+					cat $file | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
 				fi
 			done
 		else
-			if [ -e $dir/$edate-cehnstrom ]
-			then
-				cat $dir/$edate-cehnstrom | awk -F "|" '\ENGAGING\ {print $4;}' >> ~/Documents/temphours
-				cat $dir/$edate-cehnstrom | awk -F "|" '\C3DDB\ {print $4;}' >> ~/Documents/temphours
-			fi
-			for file in $dir; do
-				if [ $(echo $file | cut -d'-' -f1-3) == $(echo $sdate) ] || [ $(echo $file | cut -d'-' -f1-3) > $(echo $sdate) ] && [ $(echo $file | cut -d'-' -f1-3) < $edate ]
+			for file in $dir*; do
+				if [ $(echo $file2) == $(echo $sdate) ] || [ $(echo $file2) > $(echo $sdate) ]
 				then
-					cat file | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
-					cat file | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
+					cat $file | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
+					cat $file | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
 				fi
 			done
 		fi
+	cat ~/Documents/temphours  #test
+	sed '/^$/d' ~/Documents/temphours > ~/Documents/temphours
+	cat ~/Documents/temphours  #test
 	echo "Total cluster hours = "$(paste -sd+ ~/Documents/temphours | bc)
-	rm ~/Documents/temphours
+	#rm ~/Documents/temphours
 		
 	else
 		echo "Enter directory to search"
