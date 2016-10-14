@@ -31,6 +31,7 @@ then
 	done
 	echo ""
 	echo "Total hours submitted for ENGAGING/C3DDB"
+	echo "   for the week beginning "$sdate
 	echo "========================================"
 	echo ""
 
@@ -60,6 +61,7 @@ else  #If other host, use personal records
 	fi
 	echo ""
 	echo "  Total hours worked on ENGAGING/C3DDB"
+	echo "   for the week beginning "$sdate
 	echo "========================================"
 	echo ""
 fi
