@@ -52,6 +52,7 @@ else  #If other host, use personal records
 		done
 	else
 		for file in $dir*; do
+			fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
 			if [[ $(echo $fdate) == $(echo $sdate) || $(echo $fdate) > $(echo $sdate) ]]
 			then
 				cat $file | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
