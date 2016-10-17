@@ -1,8 +1,13 @@
 #!/bin/bash
 #Find sum of hours worked on given client for given timeframe
 
-sdate=$(date --date="last monday" +"%Y-%m-%d")
 edate=$(date +"%Y-%m-%d")
+if [ $(date +"%A") == "Monday" ]
+then
+	sdate=$(date +"%Y-%m-%d")
+else
+	sdate=$(date --date="last monday" +"%Y-%m-%d")
+fi
 
 #check host. If aquinas use project/hours/ directory M-today, else prompt
 if [ $HOSTNAME = "planetaquinas" ]
