@@ -134,7 +134,7 @@ then
 				if [[ $fdate == $sdate || $fdate > $sdate ]]
 				then
 #					echo "Pulling hours from: "$file  #test
-					cat $file | awk -F "|" '/$proj/ {print $4;}' >> ~/Documents/temphours
+					cat $file | awk -F "|" "/$proj/ {print \$4;}" >> ~/Documents/temphours
 				fi
 			fi
 		done
@@ -148,16 +148,14 @@ then
 		dir=~/Documents/Hours-$(date +"%Y")/$(date +"%m")/
 		if [ -e ~/Documents/$edate-cehnstrom ]
 		then
-			cat ~/Documents/$edate-cehnstrom | awk -F "|" '/$proj/ {print $4;}' >> ~/Documents/temphours
+			cat ~/Documents/$edate-cehnstrom | awk -F "|" "/$proj/ {print \$4;}" >> ~/Documents/temphours
 			for file in $dir*; do
 				fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
 				if [[ $fdate == $sdate  ||  $fdate > $sdate  &&  $fdate < $edate ]]
 				then
 #					echo $file  #test
 
-				#######  PROBLEM w AWK variable
-
-					cat $file | awk -F "|" '/$proj/ {print $4;}' >> ~/Documents/temphours
+					cat $file | awk -F "|" "/$proj/ {print \$4;}" >> ~/Documents/temphours
 				fi
 			done
 		fi
