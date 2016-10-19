@@ -88,7 +88,11 @@ then
 			sdate=$(date +"%Y-%m-01")
 		fi
 	echo $sdate  #test
-		if [[ ${sdate:4:1} == "-" && ${sdate:7:1} == "-" && "$sdate" -eq "$sdate" ]] 2>/dev/null
+	echo ${sdate:4:1}  # test
+	echo ${sdate:7:1}  # test
+#		if [[ ${sdate:4:1} == "-" && ${sdate:7:1} == "-" && "$sdate" -eq "$sdate" ]] 2>/dev/null
+#		if [[ ${sdate:4:1} == "-" && ${sdate:7:1} == "-" ]]
+		if [[ "$sdate" -eq "$sdate" ]]
 		then
 			break
 		fi
