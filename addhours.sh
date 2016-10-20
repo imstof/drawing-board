@@ -87,12 +87,20 @@ then
 		then
 			sdate=$(date +"%Y-%m-01")
 		fi
-	echo $sdate  #test
-	echo ${sdate:4:1}  # test
-	echo ${sdate:7:1}  # test
-#		if [[ ${sdate:4:1} == "-" && ${sdate:7:1} == "-" && "$sdate" -eq "$sdate" ]] 2>/dev/null
-#		if [[ ${sdate:4:1} == "-" && ${sdate:7:1} == "-" ]]
-		if [[ "$sdate" -eq "$sdate" ]]
+#	echo $sdate  #test
+                sdcheck=$(echo $sdate | tr -d '-')
+                mocheck=$(echo $sdate | cut -d'-' -f2)
+                if [[ ${mocheck:0:1} -eq 0 ]]
+                then
+                        mocheck=${mocheck:1:1}
+                fi
+#               echo $mocheck   #test
+                dycheck=$(echo $sdate | cut -d'-' -f3)
+                if [[ ${dycheck:0:1} -eq 0 ]]
+                then
+                        dycheck=${dycheck:1:1}
+                fi
+                if [[ ${sdate:4:1} == "-" && ${sdate:7:1} == "-" && ($sdcheck -eq $sdcheck) && $(echo $sdate | cut -d'-' -f1) -le $(date +"%Y") && $mocheck -gt 0 && $mocheck -lt 13 && $dycheck -gt 0 && $dycheck -lt 32 ]] 2>/dev/null
 		then
 			break
 		fi
@@ -106,8 +114,19 @@ then
 		then
 			edate=$(date +"%Y-%m-%d")
 		fi
-	echo $edate  #test
-		if [[ ${edate:4:1} == "-" && ${edate:7:1} == "-" && "$edate" -eq "$edate" ]] 2>/dev/null
+                sdcheck=$(echo $edate | tr -d '-')
+                mocheck=$(echo $edate | cut -d'-' -f2)
+                if [[ ${mocheck:0:1} -eq 0 ]]
+                then
+                        mocheck=${mocheck:1:1}
+                fi
+                echo $mocheck   #test
+                dycheck=$(echo $edate | cut -d'-' -f3)
+                if [[ ${dycheck:0:1} -eq 0 ]]
+                then
+                        dycheck=${dycheck:1:1}
+                fi
+                if [[ ${edate:4:1} == "-" && ${edate:7:1} == "-" && ($sdcheck -eq $sdcheck) && $(echo $edate | cut -d'-' -f1) -le $(date +"%Y") && $mocheck -gt 0 && $mocheck -lt 13 && $dycheck -gt 0 && $dycheck -lt 32 ]] 2>/dev/null
 		then
 			break
 		fi
@@ -158,7 +177,6 @@ then
 				if [[ $fdate == $sdate  ||  $fdate > $sdate  &&  $fdate < $edate ]]
 				then
 #					echo $file  #test
-
 					cat $file | awk -F "|" "/$proj/ {print \$4;}" >> ~/Documents/temphours
 				fi
 			done
