@@ -120,7 +120,7 @@ then
                 then
                         mocheck=${mocheck:1:1}
                 fi
-                echo $mocheck   #test
+#                echo $mocheck   #test
                 dycheck=$(echo $edate | cut -d'-' -f3)
                 if [[ ${dycheck:0:1} -eq 0 ]]
                 then
