@@ -188,13 +188,19 @@ then
 		echo ""
 	fi
 	
-#cat ~/Documents/temphours  #test
-sed '/^$/d' ~/Documents/temphours > ~/Documents/temphours2
-#echo ""   #test
-#cat ~/Documents/temphours2  #test
-echo "               "$(paste -sd+ ~/Documents/temphours2 | bc)
-echo ""
-rm ~/Documents/temphours*
+	if [ -e ~/Documents/temphours ]
+	then
+#		cat ~/Documents/temphours  #test
+		sed '/^$/d' ~/Documents/temphours > ~/Documents/temphours2
+#		echo ""   #test
+#		cat ~/Documents/temphours2  #test
+		echo "               "$(paste -sd+ ~/Documents/temphours2 | bc)
+		echo ""
+		rm ~/Documents/temphours*
+	else
+		echo "No hours on record for "$proj
+		echo ""
+	fi
 
 else
 	exit 0
