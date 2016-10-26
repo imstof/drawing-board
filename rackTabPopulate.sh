@@ -3,24 +3,35 @@
 #quick script to feed properly formatted data to racktables file
 
 #prompt for input
-read -p "Device Name? " dId
-read -p "Row? " row
-read -p "Pod? " pod
-read -p "Cabinet? " cab
-read -p "Lower U? " lo
-read -p "Upper U? " hi
-read -p "Device Type? " dT
-read -p "Pool? " dPp
-read -p "Group? " dPg
+#assume all items are for same pool to save typing input
+read -p "What cluster are you adding devices to? " dPp
 
-
-#append line to file, stay in same rpc if desired
 yn="y"
 while [[ $yn == "y" || $yn == "Y" ]]
 do
-	echo "{'dId':'$dId',   'r':$row,'p':'$pod','c':$cab,'lo':$lo,'hi':$hi,'dT':'$dT',    'dPp':'$dPp','dPg':'$dPg' }, >> ~/Documents/temprackfile.txt
 
+	read -p "Row? " row
+	read -p "Pod? " pod
+	read -p "Cabinet? " cab
+#ADD BITS TO VALIDATE INPUT?
 
+#stay in same rpc if desired
+	yn2="y"
+	while [[ $yn2 == "y" || $yn2 == "Y" ]]
+	do
+		read -p "Device Name? " dId
+		read -p "Lower U? " lo
+		read -p "Upper U? " hi
+		read -p "Device Type? " dT
+		read -p "Group? " dPg
+#ADD BITS TO VALIDATE INPUT?
 
+#append line to file
+		echo "{'dId':'$dId',   'r':$row,'p':'$pod','c':$cab,'lo':$lo,'hi':$hi,'dT':'$dT',    'dPp':'$dPp','dPg':'$dPg' }," >> ~/Documents/temprackfile.txt
+		read -p "Add another device in this cabinet? " yn2
+		yn2=${yn2:0:1}
+	done
 
-{'dId':'node444',   'r':5,'p':'c','c':15,'lo':18,'hi':18,'dT':'Dell R430',    'dPp':'engaging','dPg':'' },
+	read -p "Add another device to this cluster? " yn
+	yn=${yn:0:1}
+done
