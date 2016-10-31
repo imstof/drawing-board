@@ -1,7 +1,13 @@
 #!/bin/bash
-#Find sum of hours worked on given client for given timeframe
+#Find sum of hours worked on engaging/c3ddb for week
 
-sdate=$(date --date="last monday" +"%Y-%m-%d")
+#set start date to last monday (or current monday)
+if [ $(date +"%a") == "Mon" ]
+then
+	sdate=$(date +"%Y-%m-%d")
+else
+	sdate=$(date --date="last monday" +"%Y-%m-%d")
+fi
 edate=$(date +"%Y-%m-%d")
 
 if [ $HOSTNAME = "planetaquinas" ]
