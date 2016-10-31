@@ -68,10 +68,17 @@ else  #If other host, use personal records
 	echo ""
 fi
 
-#cat ~/Documents/temphours  #test
-sed '/^$/d' ~/Documents/temphours > ~/Documents/temphours2
-#echo ""   #test
-#cat ~/Documents/temphours2  #test
-echo "               "$(paste -sd+ ~/Documents/temphours2 | bc)
-echo ""
-rm ~/Documents/temphours*
+#check for file
+if [ -s ~/Documents/temphours ]
+then
+#	cat ~/Documents/temphours  #test
+	sed '/^$/d' ~/Documents/temphours > ~/Documents/temphours2
+#	echo ""   #test
+#	cat ~/Documents/temphours2  #test
+	echo "               "$(paste -sd+ ~/Documents/temphours2 | bc)
+	echo ""
+	rm ~/Documents/temphours*
+else
+	echo "         no hours to report"
+	echo ""
+fi
