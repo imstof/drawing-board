@@ -47,6 +47,10 @@ then
 		echo "ydir: "$ydir			#test
 		mdir=$smonth
 		echo "mdir: "$mdir			#test
+		if [[ ${mdir:0:1} == 0 ]]
+		then
+			mdir=${mdir:1:1}
+		fi
 		while [[ $mdir -lt "13" ]]
 		do
 			if [[ -z ${mdir:1:1} ]]
@@ -57,7 +61,7 @@ then
 			echo "fdir: "$fdir			#test
 			for file in $fdir/*
 			do
-				echo "file: "$file			#test
+#				echo "file: "$file			#test
 				fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
 				if [[ $fdate == $sdate || $fdate > $sdate ]]
 				then
@@ -69,11 +73,13 @@ then
 				mdir=${mdir:1:1}
 			fi
 			((mdir++))
-			echo "after increment, the value of mdir is: "$mdir
+#			echo "after increment, the value of mdir is: "$mdir
 		done
 		smonth=
 		((syear++))
 	done
 fi
 
-
+# sum hours
+echo "Total hours worked on "$proj" == "$(paste -ds+ ~/Documents/temphours | bc)
+#rm ~/Documents/temphours
