@@ -1,0 +1,8 @@
+#test bits and scraps
+
+
+
+ps aux | awk -F " " "/$1/ {print\$2;}" | xargs kill
+
+
+ps aux | awk -F " " "/$1/ {print\$2;}" | xargs kill -9
