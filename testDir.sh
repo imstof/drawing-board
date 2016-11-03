@@ -79,5 +79,6 @@ then
 fi
 
 # sum hours
-echo "Total hours worked on "$proj" == "$(paste -sd+ ~/Documents/temphours | bc)
-rm ~/Documents/temphours
+sed '/^$/d' ~/Documents/temphours > ~/Documents/temphours2
+echo "Total hours worked on "$proj" == "$(paste -sd+ ~/Documents/temphours2 | bc)
+rm ~/Documents/temphours*
