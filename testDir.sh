@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# search across months
+# search across years, months
 
 # get dates
 read -p "Start date: " sdate
@@ -38,39 +38,81 @@ echo "command run on: "$(date +"%Y-%m-%d %T") >> ~/Documents/temphfiles	#test
 #then
 	while [[ $syear -le $eyear ]]
 	do
-		ydir=~/Documents/Hours-$syear/
-		echo "ydir: "$ydir			#test
-
-		if [[ ${smonth:0:1} == 0 ]]
+		if [[ $syear -lt $eyear ]]
 		then
-			smonth=${smonth:1:1}
-		fi
-		while [[ $smonth -lt "13" ]]
-		do
-			if [[ -z ${smonth:1:1} ]]
-			then
-				smonth=0$smonth
-			fi
-			fdir=$ydir$smonth
-			echo "fdir: "$fdir			#test
-			for file in $fdir/*
-			do
-				echo "file: "$file >> ~/Documents/temphfiles			#test
-				fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
-				if [[ $fdate == $sdate || $fdate > $sdate ]]
-				then
-					cat $file | awk -F "|" "/$proj/ {print \$4}" >> ~/Documents/temphours
-				fi
-			done
+			ydir=~/Documents/Hours-$syear/
+			echo "ydir: "$ydir			#test
+
 			if [[ ${smonth:0:1} == 0 ]]
 			then
 				smonth=${smonth:1:1}
 			fi
-			((smonth++))
-#			echo "after increment, the value of smonth is: "$smonth
-		done
-		smonth=1
-		((syear++))
+			while [[ $smonth -lt "13" ]]
+			do
+				if [[ -z ${smonth:1:1} ]]
+				then
+					smonth=0$smonth
+				fi
+				fdir=$ydir$smonth
+				echo "fdir: "$fdir			#test
+				for file in $fdir/*
+				do
+					echo "file: "$file >> ~/Documents/temphfiles			#test
+					fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
+					if [[ $fdate == $sdate || $fdate > $sdate ]]
+					then
+						cat $file | awk -F "|" "/$proj/ {print \$4}" >> ~/Documents/temphours
+					fi
+				done
+				if [[ ${smonth:0:1} == 0 ]]
+				then
+					smonth=${smonth:1:1}
+				fi
+				((smonth++))
+			done
+			smonth=1
+			((syear++))
+		elif [[ $syear == $eyear ]]
+		then
+			ydir=~/Documents/Hours-$syear/
+			echo "ydir: "$ydir			#test
+
+			if [[ ${smonth:0:1} == 0 ]]
+			then
+				smonth=${smonth:1:1}
+			fi
+			if [[ ${emonth:0:1} == 0 ]]
+			then
+				emonth=${emonth:1:1}
+			fi
+			while [[ $smonth -le $emonth ]]
+			do
+				if [[ -z ${smonth:1:1} ]]
+				then
+					smonth=0$smonth
+				fi
+				fdir=$ydir$smonth
+				echo "fdir: "$fdir			#test
+				for file in $fdir/*
+				do
+					echo "file: "$file >> ~/Documents/temphfiles			#test
+					fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
+					if [[ $fdate == $sdate || $fdate > $sdate ]]
+					then
+						cat $file | awk -F "|" "/$proj/ {print \$4}" >> ~/Documents/temphours
+					fi
+				done
+				if [[ ${smonth:0:1} == 0 ]]
+				then
+					smonth=${smonth:1:1}
+				fi
+				((smonth++))
+			done
+			smonth=1
+			((syear++))
+		fi
+
+
 	done
 #fi
 
