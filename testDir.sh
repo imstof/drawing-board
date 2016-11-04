@@ -7,7 +7,7 @@ read -p "Start date: " sdate
 read -p "End date (default today): " edate
 if [ -z $sdate ]
 then
-	sdate="2014-06-22"
+	sdate=$(date --date="last monday" +"%Y-%m-%d")
 fi
 if [ -z $edate ]
 then
@@ -19,7 +19,7 @@ syear=$(echo $sdate | cut -d'-' -f1)
 eyear=$(echo $edate | cut -d'-' -f1)
 smonth=$(echo $sdate | cut -d'-' -f2)
 emonth=$(echo $edate | cut -d'-' -f2)
-proj="TS"		 #test
+proj="ENGAGING"		 #test
 echo "smonth :"$smonth   #test
 echo "emonth :"$emonth   #test
 echo "syear :"$syear 	 #test
