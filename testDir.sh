@@ -19,7 +19,7 @@ syear=$(echo $sdate | cut -d'-' -f1)
 eyear=$(echo $edate | cut -d'-' -f1)
 smonth=$(echo $sdate | cut -d'-' -f2)
 emonth=$(echo $edate | cut -d'-' -f2)
-proj="ENGAGING"		 #test
+proj="C3DDB"		 #test
 echo "smonth :"$smonth   #test
 echo "emonth :"$emonth   #test
 echo "syear :"$syear 	 #test
@@ -31,15 +31,11 @@ echo "eyear :"$eyear 	 #test
 		echo "smonth: "$smonth			#test
 # search directories
 
-# if current year, check files from start date to end date
-#if [[ $syear = $eyear ]]
-#then
-	
-echo "command run on: "$(date +"%Y-%m-%d %T") > ~/Documents/temphoursfiles	#test
+echo "command run on: "$(date +"%Y-%m-%d %T") >> ~/Documents/temphfiles	#test
 
 # if starting and ending in differnet years, check all files from start date to 12/31
-if [[ $syear < $eyear ]]
-then
+#if [[ $syear < $eyear ]]
+#then
 	while [[ $syear -le $eyear ]]
 	do
 		ydir=~/Documents/Hours-$syear/
@@ -59,7 +55,7 @@ then
 			echo "fdir: "$fdir			#test
 			for file in $fdir/*
 			do
-				echo "file: "$file > ~/Documents/temphoursfiles			#test
+				echo "file: "$file >> ~/Documents/temphfiles			#test
 				fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
 				if [[ $fdate == $sdate || $fdate > $sdate ]]
 				then
@@ -76,7 +72,7 @@ then
 		smonth=1
 		((syear++))
 	done
-fi
+#fi
 
 # sum hours
 sed '/^$/d' ~/Documents/temphours > ~/Documents/temphours2
