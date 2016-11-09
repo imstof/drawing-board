@@ -3,23 +3,29 @@
 # search across years, months
 
 # get dates
-read -p "Start date: " sdate
+read -p "Start date (default Monday): " sdate
 read -p "End date (default today): " edate
 if [ -z $sdate ]
 then
-	sdate=$(date --date="last monday" +"%Y-%m-%d")
+	if [[ $(date +"%a") != "Mon" ]]
+	then
+		sdate=$(date +"%Y-%m-%d")
+	else
+		sdate=$(date --date="last monday" +"%Y-%m-%d")
+	fi
 fi
 if [ -z $edate ]
 then
 	edate=$(date +"%Y-%m-%d")
 fi
 
+read "Project code: " proj
+
 # get months/years
 syear=$(echo $sdate | cut -d'-' -f1)
 eyear=$(echo $edate | cut -d'-' -f1)
 smonth=$(echo $sdate | cut -d'-' -f2)
 emonth=$(echo $edate | cut -d'-' -f2)
-proj="C3DDB"		 #test
 echo "smonth :"$smonth   #test
 echo "emonth :"$emonth   #test
 echo "syear :"$syear 	 #test
