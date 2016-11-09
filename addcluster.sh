@@ -81,4 +81,5 @@ then
 else
 	echo "         no hours to report"
 	echo ""
+	rm ~/Documents/temphours*
 fi
