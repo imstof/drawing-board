@@ -7,19 +7,19 @@ echo "==============================="
 
 while true
 do
-	read -p "Enter mm-yyyy: " chdate
+	read -p "Enter yyyy-mm: " chdate
 	if [[ -n $chdate ]]
 	then
 #work on year. auto or validate.
-		yr=${chdate:3:4}
-		if [[ ${chdate:0:1} -eq 0 ]]
+		yr=${chdate:0:4}
+		if [[ ${chdate:5:1} -eq 0 ]]
 		then
-			mo=${chdate:1:1}
+			mo=${chdate:6:1}
 		else
-			mo=${chdate:0:2}
+			mo=${chdate:5:2}
 		fi
 
-		if [[ ${chdate:2:1} == "-" && $mo -gt 0 && $mo -lt 13 && $yr -gt 2015 ]]
+		if [[ ${chdate:4:1} == "-" && $mo -gt 0 && $mo -lt 13 && $yr -gt 2015 ]]
 		then
 			break
 		fi
@@ -39,4 +39,33 @@ case $mo in
 	;;
 esac
 
-i=
+i=1
+while [ $i -le $dayz ]
+do
+	if [[ $i -lt 10 ]]
+	then
+		dy=0$i
+	else
+		dy=$i
+	fi
+	valdate=$chdate-$dy
+
+	if [[ $(date --date="$valdate" +"%a") != "Sat" && $(date --date="$valdate" +"%a") != "Sun" ]]
+	then
+		if [[ -e /projects/hours/$yr/$valdate-cehnstrom ]]
+		then
+			echo "checking "$valdate"-cehnstrom"
+			chHours=$(cat /projects/hours/$yr/$valdate-cehnstrom | /projects/clients/bin/hoursvalid.pl)
+			if [[ $chHours == "" ]]
+			then
+				echo "ok"
+			else
+				echo "ERROR"
+			fi
+		else
+			echo $valdate"-cehnstrom is MISSING!"
+		fi
+	fi
+
+	((i++))
+done
