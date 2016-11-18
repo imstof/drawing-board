@@ -60,10 +60,10 @@ do
 			then
 				echo "ok"
 			else
-				echo "ERROR"
+				echo $(tput setaf 1)"ERROR"$(tput sgr 0)
 			fi
 		else
-			echo $valdate"-cehnstrom is MISSING!"
+			echo $valdate"-cehnstrom is " $(tput setaf 1)"MISSING!"$(tput sgr 0)
 		fi
 	fi
 
