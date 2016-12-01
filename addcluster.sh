@@ -13,18 +13,14 @@ edate=$(date +"%Y-%m-%d")
 if [ $HOSTNAME = "planetaquinas" ]
 then
 	dir=/projects/hours/$(date +"%Y")/
-#	echo $dir  #test
 
 	for file in $dir$(date +"%Y")*; do
-#		echo $file  #test
 		if [ $(echo $file | cut -d'/' -f5 | cut -d'-' -f4) == "cehnstrom" ]
 		then
 		
 			fdate=$(echo $file | cut -d'/' -f5 | cut -d'-' -f1-3)
-#			echo "I cut: "$fdate " from "$file   #test
 			if [[ $(echo $fdate) == $(echo $sdate) || $(echo $fdate) > $(echo $sdate) ]]
 			then
-#				echo "Pulling hours from: "$file  #test
 				cat $file | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
 				cat $file | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
 			fi
@@ -46,7 +42,6 @@ else  #If other host, use personal records
 			fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
 			if [[ $(echo $fdate) == $(echo $sdate)  ||  $(echo $fdate) > $(echo $sdate)  &&  $(echo $fdate) < $(echo $edate) ]]
 			then
-#				echo $file  #test
 				cat $file | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
 				cat $file | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
 			fi
@@ -71,10 +66,7 @@ fi
 #check for file
 if [ -s ~/Documents/temphours ]
 then
-#	cat ~/Documents/temphours  #test
 	sed '/^$/d' ~/Documents/temphours > ~/Documents/temphours2
-#	echo ""   #test
-#	cat ~/Documents/temphours2  #test
 	echo "               "$(paste -sd+ ~/Documents/temphours2 | bc)
 	echo ""
 	rm ~/Documents/temphours*

@@ -40,8 +40,6 @@ echo "eyear :"$eyear 	 #test
 echo "command run on: "$(date +"%Y-%m-%d %T") >> ~/Documents/temphfiles	#test
 
 # if starting and ending in differnet years, check all files from start date to 12/31
-#if [[ $syear < $eyear ]]
-#then
 	while [[ $syear -le $eyear ]]
 	do
 		if [[ $syear -lt $eyear ]]
