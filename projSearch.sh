@@ -19,7 +19,7 @@ then
 	edate=$(date +"%Y-%m-%d")
 fi
 
-read "Project code: " proj
+read -p "Project code: " proj
 
 # get months/years
 syear=$(echo $sdate | cut -d'-' -f1)
@@ -47,16 +47,8 @@ echo "command run on: "$(date +"%Y-%m-%d %T") >> ~/Documents/temphfiles	#test
 			ydir=~/Documents/Hours-$syear/
 			echo "ydir: "$ydir			#test
 
-			if [[ ${smonth:0:1} == 0 ]]
-			then
-				smonth=${smonth:1:1}
-			fi
-			while [[ $smonth -lt "13" ]]
+			while [[ $((10#$smonth)) -lt "13" ]]
 			do
-				if [[ -z ${smonth:1:1} ]]
-				then
-					smonth=0$smonth
-				fi
 				fdir=$ydir$smonth
 				echo "fdir: "$fdir			#test
 				for file in $fdir/*
@@ -68,33 +60,18 @@ echo "command run on: "$(date +"%Y-%m-%d %T") >> ~/Documents/temphfiles	#test
 						cat $file | awk -F "|" "/$proj/ {print \$4}" >> ~/Documents/temphours
 					fi
 				done
-				if [[ ${smonth:0:1} == 0 ]]
-				then
-					smonth=${smonth:1:1}
-				fi
-				((smonth++))
+
+				printf -v smonth '%02d' $((10#$smonth+1))
 			done
-			smonth=1
+			smonth=01
 			((syear++))
 		elif [[ $syear == $eyear ]]
 		then
 			ydir=~/Documents/Hours-$syear/
 			echo "ydir: "$ydir			#test
 
-			if [[ ${smonth:0:1} == 0 ]]
-			then
-				smonth=${smonth:1:1}
-			fi
-			if [[ ${emonth:0:1} == 0 ]]
-			then
-				emonth=${emonth:1:1}
-			fi
-			while [[ $smonth -le $emonth ]]
+			while [[ $((10#$smonth)) -le $emonth ]]
 			do
-				if [[ -z ${smonth:1:1} ]]
-				then
-					smonth=0$smonth
-				fi
 				fdir=$ydir$smonth
 				echo "fdir: "$fdir			#test
 				for file in $fdir/*
@@ -106,19 +83,13 @@ echo "command run on: "$(date +"%Y-%m-%d %T") >> ~/Documents/temphfiles	#test
 						cat $file | awk -F "|" "/$proj/ {print \$4}" >> ~/Documents/temphours
 					fi
 				done
-				if [[ ${smonth:0:1} == 0 ]]
-				then
-					smonth=${smonth:1:1}
-				fi
-				((smonth++))
+				printf -v smonth '%02d' $((10#$smonth+1))
 			done
-			smonth=1
 			((syear++))
 		fi
 
 
 	done
-#fi
 
 # sum hours
 sed '/^$/d' ~/Documents/temphours > ~/Documents/temphours2
