@@ -7,7 +7,7 @@ read -p "Start date YYYY-MM-DD (default Monday): " sdate
 read -p "End date YYYY-MM-DD (default today): " edate
 if [ -z $sdate ]
 then
-	if [[ $(date +"%a") != "Mon" ]]
+	if [[ $(date +"%a") == "Mon" ]]
 	then
 		sdate=$(date +"%Y-%m-%d")
 	else
@@ -26,6 +26,8 @@ syear=$(echo $sdate | cut -d'-' -f1)
 eyear=$(echo $edate | cut -d'-' -f1)
 smonth=$(echo $sdate | cut -d'-' -f2)
 emonth=$(echo $edate | cut -d'-' -f2)
+echo "sdate : "$sdate	 #test
+echo "edate : "$edate	 #test
 echo "smonth :"$smonth   #test
 echo "emonth :"$emonth   #test
 echo "syear :"$syear 	 #test
