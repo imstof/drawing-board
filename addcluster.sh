@@ -37,22 +37,34 @@ then
 	echo ""
 
 else  #If other host, use personal records
-	dir=~/Documents/Hours-$(date +"%Y")/$(date +"%m")/
 	if [ -e ~/Documents/$edate-cehnstrom ]
 	then
+		echo "if [ -e ~/Documents/$edate-cehnstrom ] == true"	#test
 		cat ~/Documents/$edate-cehnstrom | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
 		cat ~/Documents/$edate-cehnstrom | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
-		for file in $dir*; do
+	fi
+
+	if [ $((10#$(echo $sdate | awk -F "-" '{print $2}'))) -ne $((10#$(echo $edate | awk -F "-" '{print $2}'))) ]
+	then
+		echo "sdate month != edate month"	#test
+		dir=~/Documents/Hours-$(echo $sdate | awk -F "-" '{print $1}')/$(echo $sdate | awk -F "-" '{print $2}')/
+		for file in $dir*
+		do
+			echo $file	#test
 			fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
 			if [[ $(echo $fdate) == $(echo $sdate)  ||  $(echo $fdate) > $(echo $sdate)  &&  $(echo $fdate) < $(echo $edate) ]]
 			then
-#				echo $file  #test
+				echo $file  #test
 				cat $file | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
 				cat $file | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
 			fi
 		done
-	else
-		for file in $dir*; do
+	fi
+	
+	dir=~/Documents/Hours-$(date +"%Y")/$(date +"%m")/
+		for file in $dir*
+		do
+			echo $file	#test
 			fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
 			if [[ $(echo $fdate) == $(echo $sdate) || $(echo $fdate) > $(echo $sdate) ]]
 			then
@@ -60,7 +72,7 @@ else  #If other host, use personal records
 				cat $file | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
 			fi
 		done
-	fi
+
 	echo ""
 	echo "  Total hours worked on ENGAGING/C3DDB"
 	echo "   for the week beginning "$sdate
