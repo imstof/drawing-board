@@ -35,6 +35,7 @@ file=~/Documents/$now-cehnstrom
 echo "cehnstrom|$now $stime|$now ||TS|Y|N|email" >> $file
 echo "cehnstrom|$now $stime|$now ||HOME|Y|N|domestic duties" >> $file
 echo "cehnstrom|$now |$now |0.75|HOME|Y|N|to mghpcc" >> $file
+echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|email,issues" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|learning" >> $file
 echo "cehnstrom|$now |$now ||ENGAGING|Y|N|" >> $file
@@ -45,7 +46,7 @@ echo "cehnstrom|$now |$now ||TS|Y|N|email,issues" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|learning" >> $file
 echo "cehnstrom|$now |$now |||Y|N|" >> $file
 echo "cehnstrom|$now |$now |||Y|N|" >> $file
-echo "cehnstrom|$now |$now |||Y|N|" >> $file
+echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
 
 if [ -z "$1" ]
 then
