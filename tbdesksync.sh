@@ -22,7 +22,9 @@ then
 	fi
 	#start tbird
 	thunderbird &
+	echo "$(tput setaf 2)remember to kill and restart Tbird on laptop$(tput sgr 0)"
 	exit 0
+
 else
 	echo "Please gracefully shutdown TBird and rerun."
 	exit 1
