@@ -2,6 +2,8 @@
 
 # A script to automatically generate file for entering hours
 
+# Exit if file exists already.
+
 #If no time given, generate current 1/4 hour, else $1
 if [ -z "$1" ]
 then
@@ -30,9 +32,17 @@ else
 	now=$2
 fi
 
+if [ -e ~/Documents/$now-cehnstrom ]
+then
+	echo ""
+	echo "File: ~/Documents/"$now"-cehnstrom already exists."
+	echo ""
+	exit 0
+fi
+
 file=~/Documents/$now-cehnstrom
 
-echo "cehnstrom|$now $stime|$now ||TS|Y|N|email" >> $file
+echo "cehnstrom|$now $stime|$now ||TS|Y|N|email,misc" >> $file
 echo "cehnstrom|$now $stime|$now ||HOME|Y|N|domestic duties" >> $file
 echo "cehnstrom|$now |$now |0.75|HOME|Y|N|to mghpcc" >> $file
 echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
@@ -40,12 +50,16 @@ echo "cehnstrom|$now |$now ||TS|Y|N|email,issues" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|learning" >> $file
 echo "cehnstrom|$now |$now ||ENGAGING|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||C3DDB|Y|N|" >> $file
+echo "cehnstrom|$now |$now ||HOLYOKE|Y|N|" >> $file
+echo "cehnstrom|$now |$now ||NEURO|Y|N|" >> $file
 echo "cehnstrom|$now |$now |||Y|N|" >> $file
 echo "cehnstrom|$now |$now |1|LUNCH|Y|N|lunch" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|email,issues" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|learning" >> $file
-echo "cehnstrom|$now |$now |||Y|N|" >> $file
-echo "cehnstrom|$now |$now |||Y|N|" >> $file
+echo "cehnstrom|$now |$now ||ENGAGING|Y|N|" >> $file
+echo "cehnstrom|$now |$now ||C3DDB|Y|N|" >> $file
+echo "cehnstrom|$now |$now ||HOLYOKE|Y|N|" >> $file
+echo "cehnstrom|$now |$now ||NEURO|Y|N|" >> $file
 echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
 
 if [ -z "$1" ]
