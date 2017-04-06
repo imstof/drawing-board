@@ -9,9 +9,9 @@ if [ -z $sdate ]
 then
 	if [[ $(date +"%a") == "Mon" ]]
 	then
-		sdate=$(date --date="last monday" +"%Y-%m-%d")
-	else
 		sdate=$(date +"%Y-%m-%d")
+	else
+		sdate=$(date --date="last monday" +"%Y-%m-%d")
 	fi
 fi
 if [ -z $edate ]
