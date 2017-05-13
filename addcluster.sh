@@ -68,8 +68,11 @@ else  #If other host, use personal records
 			fdate=$(echo $file | cut -d'/' -f7 | cut -d'-' -f1-3)
 			if [[ $(echo $fdate) == $(echo $sdate) || $(echo $fdate) > $(echo $sdate) ]]
 			then
+#			echo $file	#test
 				cat $file | awk -F "|" '/ENGAGING/ {print $4;}' >> ~/Documents/temphours
 				cat $file | awk -F "|" '/C3DDB/ {print $4;}' >> ~/Documents/temphours
+#				cat $file | awk -F "|" '/ENGAGING/ {print $4;}' 	#test
+#				cat $file | awk -F "|" '/C3DDB/ {print $4;}'		#test
 			fi
 		done
 
