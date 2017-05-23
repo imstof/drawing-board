@@ -8,6 +8,10 @@ echo "==============================="
 while true
 do
 	read -p "Enter yyyy-mm: " chdate
+	if [[ -z $chdate ]]
+	then
+		chdate=$(date +"%Y-%m")
+	fi
 	if [[ -n $chdate ]]
 	then
 #work on year. auto or validate.
