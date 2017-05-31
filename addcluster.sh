@@ -46,7 +46,7 @@ else  #If other host, use personal records
 
 	if [ $((10#$(echo $sdate | awk -F "-" '{print $2}'))) -ne $((10#$(echo $edate | awk -F "-" '{print $2}'))) ]
 	then
-#		echo "sdate month != edate month"	#test
+		echo "sdate month != edate month"	#test
 		dir=~/Documents/Hours-$(echo $sdate | awk -F "-" '{print $1}')/$(echo $sdate | awk -F "-" '{print $2}')/
 		for file in $dir*
 		do
