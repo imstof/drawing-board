@@ -29,8 +29,12 @@ then
 else
 	echo "...failed"
 	echo "adding job to crontab..."
-	if crontab -l | sed "$ a\1 7-18 * * 1-5 \/home\/imstof\/bin\/rmdeskcron $1" | crontab -
+	if [[ -z $(crontab -l) ]]
 	then
+		echo "1 7-18 * * 1-5 /home/imstof/bin/rmdeskcron $1" | crontab -
+		echo "...file will be deleted when Desktop-MGHPCC is present"
+	elif
+		crontab -l | sed "$ a\1 7-18 * * 1-5 \/home\/imstof\/bin\/rmdeskcron $1" | crontab -
 		echo "...file will be deleted when Desktop-MGHPCC is present"
 	else
 		echo "...failed"
