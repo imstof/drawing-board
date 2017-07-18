@@ -7,6 +7,7 @@ then
 	if ssh -i /home/imstof/.ssh/id_rsa_lapdesk 192.168.13.30 rm $1
 	then
 		echo $1 "deleted from Desktop-MGHPCC" | mail -s "$1 deleted" cehnstrom@techsquare.com
-		crontab -l | sed /rmdeskcron\ $1/d | crontab -
+		file=$(echo $1 | sed 's:\/:\\\/:g')
+		crontab -l | sed "/rmdeskcron\ $file/d" | crontab -
 	fi
 fi
