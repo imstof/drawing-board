@@ -31,14 +31,14 @@ else
 	echo "adding job to crontab..."
 	if [[ -z $(crontab -l) ]]
 	then
-		if echo "1 7-18 * * 1-5 /home/imstof/bin/rmdeskcron $1" | crontab -
+		if echo "*/1 7-18 * * 1-5 /home/imstof/bin/rmdeskcron $1" | crontab -
 		then
 			echo "...file will be deleted when Desktop-MGHPCC is present"
 		else
 			echo "...failed"
 		fi
 	else
-		if crontab -l | sed "$ a\*1 7-18 * * 1-5 \/home\/imstof\/bin\/rmdeskcron $1" | crontab -
+		if crontab -l | sed "$ a\*\/1 7-18 * * 1-5 \/home\/imstof\/bin\/rmdeskcron $1" | crontab -
 		then
 			echo "...file will be deleted when Desktop-MGHPCC is present"
 		else
