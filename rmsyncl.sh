@@ -53,4 +53,5 @@ do
 		fi
 	fi
 	echo
+	echo HERE	#test
 done
