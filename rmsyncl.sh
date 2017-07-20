@@ -4,7 +4,7 @@
 #from Desktop
 
 #new version to expand dir/*
-for file in $1
+for file in $@
 do
 	echo $file
 	echo
