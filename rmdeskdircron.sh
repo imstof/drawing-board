@@ -8,6 +8,6 @@ then
 	then
 		echo $1 "deleted from Desktop-MGHPCC" | mail -s "$1 deleted" cehnstrom@techsquare.com
 		file=$(echo $1 | sed 's:\/:\\\/:g')
-		crontab -l | sed "/rmdeskcron\ $file/d" | crontab -
+		crontab -l | sed "/rmdeskdircron\ $file/d" | crontab -
 	fi
 fi
