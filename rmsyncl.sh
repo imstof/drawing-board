@@ -45,7 +45,7 @@ do
 					echo "...failed"
 				fi
 			else
-				if crontab -l | sed "$ a\*\/1 7-18 * * 1-5 \/home\/imstof\/bin\/rmdeskcron $file" | crontab -
+				if crontab -l | sed "$ a\*\/1 7-18 * * 1-5 \/home\/imstof\/bin\/rmdeskdircron $file" | crontab -
 				then
 					echo "...file will be deleted when Desktop-MGHPCC is present"
 				else
