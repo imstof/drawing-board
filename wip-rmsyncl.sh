@@ -38,7 +38,7 @@ do
 	#sed won't '$ a' to empty crontab, echo the single line
 			if [[ -z $(crontab -l) ]]
 			then
-				if echo "*/1 7-18 * * 1-5 /home/imstof/bin/rmdeskcron $file" | crontab -
+				if echo "*/1 7-18 * * 1-5 /home/imstof/bin/rmdeskdircron $file" | crontab -
 				then
 					echo "...file will be deleted when Desktop-MGHPCC is present"
 				else
