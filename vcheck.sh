@@ -9,4 +9,9 @@ else
 	NOW=$1
 fi
 
-cat ~/Documents/$NOW-cehnstrom | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc
+echo
+echo "Hours|Project|Notes"
+cat ~/Documents/$NOW-cehnstrom | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4,5,8 | awk -F'|' '$1!=""'
+
+echo
+echo "Total: "$(cat ~/Documents/$NOW-cehnstrom | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
