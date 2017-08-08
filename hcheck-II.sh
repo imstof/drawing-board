@@ -25,6 +25,6 @@ else
 	echo "Fix it!"
 	printf "\n"
 	echo $file
-	echo $(cat $file | /projects/clients/bin/hoursvalid.pl) | grep \# 
+	echo $(cat $file | /projects/clients/bin/hoursvalid.pl | grep \#)
 	printf "\n\n"
 fi
