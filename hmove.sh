@@ -19,9 +19,9 @@ if [[ -z $1 ]]
 then
 	mkdir -p ~/Documents/Hours-$YEAR
 	mkdir -p ~/Documents/Hours-$YEAR/$MONTH
-	mv ~/Documents/$NOW-cehnstrom ~/Documents/Hours-$YEAR/$MONTH/
+	cp ~/Documents/$NOW-cehnstrom ~/Documents/Hours-$YEAR/$MONTH/
 else
 	mkdir -p ~/Documents/Hours-$(echo $1 | cut -d'-' -f1)/
 	mkdir -p ~/Documents/Hours-$(echo $1 | cut -d'-' -f1)/$(echo $1 | cut -d'-' -f2)
-	mv ~/Documents/$1-cehnstrom ~/Documents/Hours-$(echo $1 | cut -d'-' -f1)/$(echo $1 | cut -d'-' -f2)
+	cp ~/Documents/$1-cehnstrom ~/Documents/Hours-$(echo $1 | cut -d'-' -f1)/$(echo $1 | cut -d'-' -f2)
 fi 
