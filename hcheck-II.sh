@@ -2,17 +2,9 @@
 
 #script to run hours file through checker.
 
-NOW=$(date +"%Y-%m-%d")
+file=~/Documents/$(date --date="$1" +"%Y-%m-%d")-cehnstrom
 
-if [[ -z $1 ]]
-then
-	checkedHours=$(cat ~/Documents/$NOW-cehnstrom | /projects/clients/bin/hoursvalid.pl)
-else
-	checkedHours=$(cat ~/Documents/$1-cehnstrom | /projects/clients/bin/hoursvalid.pl)
-fi
-
-if [$checkedHours == ""]
-# && $checkedDoc== ""]
+if [[ $(cat $file | /projects/clients/bin/hoursvalid.pl) == "" ]]
 then
 	printf "\n\n"
 	echo "Nailed it!"
@@ -21,19 +13,18 @@ then
 	read -p "Move it? " yn
 	if [ $yn == "y" ]
 	then
-		if [ -z $1 ]
-		then
-			hmove
-		else
-			hmove $1
-		fi
+		year=$(date --date="$1" +"%Y")
+		month=$(date --date="$1" +"%m")
+		mkdir -p ~/Documents/Hours-$year
+		mkdir -p ~/Documents/Hours-$year/$month
+		cp $file ~/Documents/Hours-$year/$month
 	fi
 	exit
 else
 	printf "\n\n"
 	echo "Fix it!"
 	printf "\n"
-	echo $checkedDoc
-	echo "$checkedHours" | grep \# 
+	echo $file
+	echo $(cat $file | /projects/clients/bin/hoursvalid.pl) | grep \# 
 	printf "\n\n"
 fi
