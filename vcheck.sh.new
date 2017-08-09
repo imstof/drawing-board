@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#quick check of contract hours
+
+NOW=$(date --date="$1" +"%Y-%m-%d")
+ONCLOCK=$(cat ~/Documents/$NOW-cehnstrom | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+OFFCLOCK=$(cat ~/Documents/$NOW-cehnstrom | grep -e HOME -e LUNCH | cut -d'|' -f4     | sed '/^$/d' | paste -sd+ | bc)
+
+
+echo
+echo "On-The-Clock"
+echo "Hours|Project|Notes"
+cat ~/Documents/$NOW-cehnstrom | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4,5,8 | awk -F'|' '$1!=""'
+
+echo
+
+echo "Total On-The-Clock: "$ONCLOCK
+
+echo
+echo "Off-The-Clock"
+echo "Hours|Project|Notes"
+cat ~/Documents/$NOW-cehnstrom | grep -e HOME -e LUNCH | cut -d'|' -f4,5,8 | awk     -F'|' '$1!=""'
+echo
+echo "Total Off-The-Clock: "$OFFCLOCK
+echo
+echo "Total Hours: "$(echo $ONCLOCK"+"$OFFCLOCK | bc)
