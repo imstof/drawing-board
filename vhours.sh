@@ -2,9 +2,9 @@
 
 #Open current hours file
 
-NOW=$(date +"%Y-%m-%d")
+FILEDATE=$(date --date="$1" +"%Y-%m-%d")
 
-vim ~/Documents/$NOW-cehnstrom
+vim ~/Documents/$FILEDATE-cehnstrom
 
 echo ""
 read -p "Sync Documents folder? " yn
