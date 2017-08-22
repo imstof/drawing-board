@@ -18,7 +18,7 @@ then
 		mkdir -p ~/Documents/Hours-$year
 		mkdir -p ~/Documents/Hours-$year/$month
 		cp $file ~/Documents/Hours-$year/$month
-		mv $file /projects/hours/$year
+		cp $file /projects/hours/$year
 	fi
 	exit
 else
