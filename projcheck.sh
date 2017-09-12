@@ -3,16 +3,17 @@
 # check hours worked on project codes
 
 # help func
-show_help (){
+show_help(){
 	echo
 	echo "Usage: `basename $0` [option] ..."
 	echo "Report of hours worked on projects"
 	echo
-	echo "	-s START_DATE"
+	echo "	-s START DATE"
 	echo "		start date (default Monday)"
 	echo "		this can be a string in quotes. eg \"2 mondays ago\""
-	echo "	-e END_DATE"
+	echo "	-e END DATE"
 	echo "		end date (default today)"
+	echo "		this can be a string in quotes. eg \"last friday\""
 	echo "	-h"
 	echo "		display this help and exit"
 	echo
@@ -20,21 +21,21 @@ show_help (){
 
 if [[ $(date +"%A") == "Monday" ]]
 then
-	START_DATE=$(date +"%Y-%m-%d")
+	S_DATE=$(date +"%Y%m%d")
 else
-	START_DATE=$(date --date="last monday" +"%Y-%m-%d")
+	S_DATE=$(date --date="last monday" +"%Y%m%d")
 fi
 
-END_DATE=$(date +"%Y-%m-%d")
+E_DATE=$(date +"%Y%m%d")
 
-while getopts :hs:e: opts
+while getopts :hs:e: opt
 do
 	case $opt in
 		s)
-			START_DATE=$(date --date="$OPTARG")
+			S_DATE=$(date --date="$OPTARG" +"%Y%m%d")
 			;;
 		e)
-			END_DATE=$(date --date="$OPTARG")
+			E_DATE=$(date --date="$OPTARG" +"%Y%m%d")
 			;;
 		h)
 			show_help
@@ -48,4 +49,21 @@ do
 	esac
 done
 
+#S_YEAR=$(date --date="$S_DATE" +"%Y")
+#S_MONTH=$(date --date="$S_DATE" +"%m")
+#E_YEAR=$(date --date="$E_DATE" +"%Y")
+#E_MONTH=$(date --date="$E_DATE" +"%m")
 
+
+for cdate in $(seq $S_DATE $E_DATE)
+do
+	file="$(date --date="$cdate" +"%Y-%m-%d")-cehnstrom"
+	year=$(date --date="$cdate" +"%Y")
+	month=$(date --date="$cdate" +"%m")
+
+#	echo $file		#TEST
+#	echo $year		#TEST
+#	echo $month		#TEST
+
+	
+done
