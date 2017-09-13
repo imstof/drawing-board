@@ -6,6 +6,15 @@ FILEDATE=$(date --date="$1" +"%Y-%m-%d")
 ONCLOCK=$(cat ~/Documents/$FILEDATE-cehnstrom | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
 OFFCLOCK=$(cat ~/Documents/$FILEDATE-cehnstrom | grep -e HOME -e LUNCH | cut -d'|' -f4     | sed '/^$/d' | paste -sd+ | bc)
 
+if [[ -z $OFFCLOCK ]]
+then
+	OFFCLOCK=0
+fi
+if [[ -z $ONCLOCK ]]
+then
+	ONCLOCK=0
+fi
+
 START=$(echo $(
 	z=23.75
 	for x in $(cat ~/Documents/$FILEDATE-cehnstrom | cut -d'|' -f2 | cut -d' ' -f2 | sed s/:15/.25/g| sed s/:30/.50/g | sed s/:45/.75/g | sed s/:00/.00/g)
