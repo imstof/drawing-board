@@ -53,14 +53,14 @@ echo "cehnstrom|$now |$now ||C3DDB|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||HOLYOKE|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||NEURO|Y|N|" >> $file
 echo "cehnstrom|$now |$now |||Y|N|" >> $file
-echo "cehnstrom|$now |$now |1|LUNCH|Y|N|lunch" >> $file
+echo "cehnstrom|$now |$now ||LUNCH|Y|N|lunch" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|email,issues" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|learning" >> $file
 echo "cehnstrom|$now |$now ||ENGAGING|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||C3DDB|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||HOLYOKE|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||NEURO|Y|N|" >> $file
-echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
+echo "cehnstrom|$now |$now ||HOLYOKE|Y|N|walkthrough" >> $file
 
 if [ -z "$1" ]
 then
