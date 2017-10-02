@@ -19,6 +19,7 @@ show_help(){
 	echo
 }
 
+# determine start and end dates. default 'last monday' and 'today'. or pulled from opts
 if [[ $(date +"%A") == "Monday" ]]
 then
 	S_DATE=$(date +"%Y%m%d")
@@ -49,21 +50,24 @@ do
 	esac
 done
 
-#S_YEAR=$(date --date="$S_DATE" +"%Y")
-#S_MONTH=$(date --date="$S_DATE" +"%m")
-#E_YEAR=$(date --date="$E_DATE" +"%Y")
-#E_MONTH=$(date --date="$E_DATE" +"%m")
+echo $S_DATE			#TEST
+echo $E_DATE			#TEST
 
-
+#search files in range
 for cdate in $(seq $S_DATE $E_DATE)
 do
-	file="$(date --date="$cdate" +"%Y-%m-%d")-cehnstrom"
-	year=$(date --date="$cdate" +"%Y")
-	month=$(date --date="$cdate" +"%m")
+	if [[ $(echo ${cdate:6:2}) -gt 31 || $(echo ${cdate:6:2}) -lt 1 ]]
+	then
+		continue
+	fi
 
-#	echo $file		#TEST
-#	echo $year		#TEST
-#	echo $month		#TEST
+	file="$(date --date="$cdate" +"%Y-%m-%d")-cehnstrom" 2>/dev/null
+	year=$(date --date="$cdate" +"%Y") 2>/dev/null
+	month=$(date --date="$cdate" +"%m") 2>/dev/null
+
+	echo $file		#TEST
+	echo $year		#TEST
+	echo $month		#TEST
 
 	
 done
