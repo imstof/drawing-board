@@ -15,6 +15,9 @@ then
 	ONCLOCK=0
 fi
 
+echo
+echo $FILEDATE
+
 START=$(echo $(
 	z=23.75
 	for x in $(cat ~/Documents/$FILEDATE-cehnstrom | cut -d'|' -f2 | cut -d' ' -f2 | sed s/:15/.25/g| sed s/:30/.50/g | sed s/:45/.75/g | sed s/:00/.00/g)
