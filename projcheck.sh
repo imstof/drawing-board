@@ -72,7 +72,7 @@ do
 		continue
 	fi
 
-	echo $FILE		#TEST
+#	echo $FILE		#TEST
 #	echo $YEAR		#TEST
 #	echo $MONTH		#TEST
 
@@ -114,8 +114,8 @@ do
 						) | bc)
 	fi
 
-echo $ENG_HOURS			#TEST
-echo $C3_HOURS			#TEST
+#echo $ENG_HOURS			#TEST
+#echo $C3_HOURS			#TEST
 	
 done
 
