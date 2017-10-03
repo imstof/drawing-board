@@ -28,6 +28,8 @@ else
 fi
 
 E_DATE=$(date +"%Y%m%d")
+ENG_HOURS=0
+C3_HOURS=0
 
 while getopts :hs:e: opt
 do
@@ -50,24 +52,72 @@ do
 	esac
 done
 
-echo $S_DATE			#TEST
-echo $E_DATE			#TEST
+#echo $S_DATE			#TEST
+#echo $E_DATE			#TEST
 
-#search files in range
+#validate data and set file variables
 for cdate in $(seq $S_DATE $E_DATE)
 do
-	if [[ $(echo ${cdate:6:2}) -gt 31 || $(echo ${cdate:6:2}) -lt 1 ]]
+	if [[ $(echo ${cdate:6:2}) -gt 31 || $(echo ${cdate:6:2}) -lt 1 || -z $(echo $(date --date=$cdate 2>/dev/null)) ]]
 	then
 		continue
 	fi
 
-	file="$(date --date="$cdate" +"%Y-%m-%d")-cehnstrom" 2>/dev/null
-	year=$(date --date="$cdate" +"%Y") 2>/dev/null
-	month=$(date --date="$cdate" +"%m") 2>/dev/null
+	FILE="$(date --date=$cdate +"%Y-%m-%d")-cehnstrom"
+	YEAR=$(date --date=$cdate +"%Y")
+	MONTH=$(date --date=$cdate +"%m")
 
-	echo $file		#TEST
-	echo $year		#TEST
-	echo $month		#TEST
+	if [[ ! -e /home/imstof/Documents/$FILE && ! -e /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE ]]
+	then
+		continue
+	fi
 
+	echo $FILE		#TEST
+#	echo $YEAR		#TEST
+#	echo $MONTH		#TEST
+
+#grep FILE for engaging or c3ddb hours
+	if [[ -e /home/imstof/Documents/$FILE ]]
+	then
+		ENG_HOURS=$(echo $ENG_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/$FILE | grep ENG | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then
+				echo $(cat /home/imstof/Documents/$FILE | grep ENG | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						 ) | bc)
+		C3_HOURS=$(echo $C3_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/$FILE | grep C3 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then
+				echo $(cat /home/imstof/Documents/$FILE | grep C3 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						 ) | bc)
+	else
+		ENG_HOURS=$(echo $ENG_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep ENG | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then 
+				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep ENG | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						) | bc)
+		C3_HOURS=$(echo $C3_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep C3 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then 
+				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep C3 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						) | bc)
+	fi
+
+echo $ENG_HOURS			#TEST
+echo $C3_HOURS			#TEST
 	
 done
+
+echo ENGAGING HOURS = $ENG_HOURS
+echo C3DDB HOURS = $C3_HOURS
