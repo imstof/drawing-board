@@ -69,3 +69,5 @@ then
 	exit 0
 fi
 vim $file
+quicksync
+
