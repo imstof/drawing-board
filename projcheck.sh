@@ -10,7 +10,7 @@ show_help(){
 	echo
 	echo "	-s START DATE"
 	echo "		start date (default Monday)"
-	echo "		this can be a string in quotes. eg \"2 mondays ago\""
+	echo "		this can be a string in quotes. eg \"last tuesday\""
 	echo "	-e END DATE"
 	echo "		end date (default today)"
 	echo "		this can be a string in quotes. eg \"last friday\""
@@ -52,8 +52,8 @@ do
 	esac
 done
 
-#echo $S_DATE			#TEST
-#echo $E_DATE			#TEST
+echo $S_DATE			#TEST
+echo $E_DATE			#TEST
 
 #validate data and set file variables
 for cdate in $(seq $S_DATE $E_DATE)
@@ -72,7 +72,7 @@ do
 		continue
 	fi
 
-#	echo $FILE		#TEST
+	echo $FILE		#TEST
 #	echo $YEAR		#TEST
 #	echo $MONTH		#TEST
 
