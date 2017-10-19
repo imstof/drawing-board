@@ -58,7 +58,7 @@ echo $E_DATE			#TEST
 #validate data and set file variables
 for cdate in $(seq $S_DATE $E_DATE)
 do
-	if [[ $(echo ${cdate:6:2}) -gt 31 || $(echo ${cdate:6:2}) -lt 1 || -z $(echo $(date --date=$cdate 2>/dev/null)) ]]
+	if [[ $(echo $((10#${cdate:6:2}))) -gt 31 || $(echo $((10#${cdate:6:2}))) -lt 1 || -z $(echo $(date --date=$cdate 2>/dev/null)) ]]
 	then
 		continue
 	fi
