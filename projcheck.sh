@@ -52,8 +52,8 @@ do
 	esac
 done
 
-echo $S_DATE			#TEST
-echo $E_DATE			#TEST
+#echo $S_DATE			#TEST
+#echo $E_DATE			#TEST
 
 #validate data and set file variables
 for cdate in $(seq $S_DATE $E_DATE)
@@ -72,7 +72,7 @@ do
 		continue
 	fi
 
-	echo $FILE		#TEST
+#	echo $FILE		#TEST
 #	echo $YEAR		#TEST
 #	echo $MONTH		#TEST
 
