@@ -29,7 +29,7 @@ if [ -z "$2" ]
 then
 	now=$(date +"%Y-%m-%d")
 else
-	now=$2
+	now=$(date --date=$2 +"%Y-%m-%d")
 fi
 
 if [ -e ~/Documents/$now-cehnstrom ]
