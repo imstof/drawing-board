@@ -3,8 +3,21 @@
 #quick check of contract hours
 
 FILEDATE=$(date --date="$1" +"%Y-%m-%d")
-ONCLOCK=$(cat ~/Documents/$FILEDATE-cehnstrom | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-OFFCLOCK=$(cat ~/Documents/$FILEDATE-cehnstrom | grep -e HOME -e LUNCH | cut -d'|' -f4     | sed '/^$/d' | paste -sd+ | bc)
+	if [[ -e ~/Documents/$FILEDATE-cehnstrom ]]
+	then
+		FILE=~/Documents/$FILEDATE-cehnstrom
+	elif [[ -e ~/Documents/Hours-$(date --date=$FILEDATE +"%Y")/$(date --date=$FILEDATE +"%m")/$FILEDATE-cehnstrom ]]
+	then
+		FILE=~/Documents/Hours-$(date --date=$FILEDATE +"%Y")/$(date --date=$FILEDATE +"%m")/$FILEDATE-cehnstrom
+	else
+		echo "cannot find file: $FILEDATE-cehnstrom"
+		exit 1
+	fi
+
+echo "file: "$FILE		#TEST
+
+ONCLOCK=$(cat $FILE | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+OFFCLOCK=$(cat $FILE | grep -e HOME -e LUNCH | cut -d'|' -f4     | sed '/^$/d' | paste -sd+ | bc)
 
 if [[ -z $OFFCLOCK ]]
 then
@@ -20,9 +33,9 @@ echo $FILEDATE
 
 START=$(echo $(
 	z=23.75
-	for x in $(cat ~/Documents/$FILEDATE-cehnstrom | cut -d'|' -f2 | cut -d' ' -f2 | sed s/:15/.25/g| sed s/:30/.50/g | sed s/:45/.75/g | sed s/:00/.00/g)
+	for x in $(cat $FILE | cut -d'|' -f2 | cut -d' ' -f2 | sed s/:15/.25/g| sed s/:30/.50/g | sed s/:45/.75/g | sed s/:00/.00/g)
 	do
-		for y in $(cat ~/Documents/$FILEDATE-cehnstrom | cut -d'|' -f2 | cut -d' ' -f2 | sed s/:15/.25/g| sed s/:30/.50/g | sed s/:45/.75/g | sed s/:00/.00/g)
+		for y in $(cat $FILE | cut -d'|' -f2 | cut -d' ' -f2 | sed s/:15/.25/g| sed s/:30/.50/g | sed s/:45/.75/g | sed s/:00/.00/g)
 		do
 			if [[ $(echo $x"<"$y | bc) == 1 && $(echo $x"<"$z | bc) == 1 ]]
 			then
@@ -36,9 +49,9 @@ echo "START="$START		#TEST
 
 END=$(echo $(
 	z=00.00
-	for x in $(cat ~/Documents/$FILEDATE-cehnstrom | cut -d'|' -f3 | cut -d' ' -f2 | sed s/:15/.25/g| sed s/:30/.50/g | sed s/:45/.75/g | sed s/:00/.00/g)
+	for x in $(cat $FILE | cut -d'|' -f3 | cut -d' ' -f2 | sed s/:15/.25/g| sed s/:30/.50/g | sed s/:45/.75/g | sed s/:00/.00/g)
 	do
-		for y in $(cat ~/Documents/$FILEDATE-cehnstrom | cut -d'|' -f3 | cut -d' ' -f2 | sed s/:15/.25/g| sed s/:30/.50/g | sed s/:45/.75/g | sed s/:00/.00/g)
+		for y in $(cat $FILE | cut -d'|' -f3 | cut -d' ' -f2 | sed s/:15/.25/g| sed s/:30/.50/g | sed s/:45/.75/g | sed s/:00/.00/g)
 		do
 			if [[ $(echo $x">"$y | bc) == 1 && $(echo $x">"$z | bc) == 1 ]]
 			then
@@ -57,7 +70,7 @@ echo "HOURS="$HOURS			#TEST
 echo
 echo "On-The-Clock"
 echo "Hours|Project|Notes"
-cat ~/Documents/$FILEDATE-cehnstrom | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4,5,8 | awk -F'|' '$1!=""'
+cat $FILE | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4,5,8 | awk -F'|' '$1!=""'
 
 echo
 
@@ -66,7 +79,7 @@ echo "Total On-The-Clock: "$ONCLOCK
 echo
 echo "Off-The-Clock"
 echo "Hours|Project|Notes"
-cat ~/Documents/$FILEDATE-cehnstrom | grep -e HOME -e LUNCH | cut -d'|' -f4,5,8 | awk     -F'|' '$1!=""'
+cat $FILE | grep -e HOME -e LUNCH | cut -d'|' -f4,5,8 | awk     -F'|' '$1!=""'
 echo
 echo "Total Off-The-Clock: "$OFFCLOCK
 echo
