@@ -69,6 +69,18 @@ do
 		else
 			echo $valdate"-cehnstrom is " $(tput setaf 1)"MISSING!"$(tput sgr 0)
 		fi
+	else
+		if [[ -e /projects/hours/$yr/$valdate-cehnstrom ]]
+		then
+			echo "checking "$valdate"-cehnstrom" $(tput setaf 3)"WEEKEND"$(tput sgr 0)
+			chHours=$(cat /projects/hours/$yr/$valdate-cehnstrom | /projects/clients/bin/hoursvalid.pl)
+			if [[ $chHours == "" ]]
+			then
+				echo "ok"
+			else
+				echo $(tput setaf 1)"ERROR"$(tput sgr 0)
+			fi
+		fi
 	fi
 
 	((i++))
