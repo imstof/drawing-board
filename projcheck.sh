@@ -30,6 +30,7 @@ fi
 E_DATE=$(date +"%Y%m%d")
 ENG_HOURS=0
 C3_HOURS=0
+NEURO_HOURS=0
 
 while getopts :hs:e: opt
 do
@@ -95,6 +96,14 @@ do
 				echo 0
 			fi
 						 ) | bc)
+		NEURO_HOURS=$(echo $NEURO_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/$FILE | grep NEURO | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then
+				echo $(cat /home/imstof/Documents/$FILE | grep NEURO | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						 ) | bc)
 	else
 		ENG_HOURS=$(echo $ENG_HOURS+$(
 			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep ENG | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
@@ -112,6 +121,14 @@ do
 				echo 0
 			fi
 						) | bc)
+		NEURO_HOURS=$(echo $NEURO_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep NEURO | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then 
+				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep NEURO | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						) | bc)
 	fi
 
 #echo $ENG_HOURS			#TEST
@@ -121,3 +138,4 @@ done
 
 echo ENGAGING HOURS = $ENG_HOURS
 echo C3DDB HOURS = $C3_HOURS
+echo NEURO HOURS = $NEURO_HOURS
