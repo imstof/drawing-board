@@ -32,6 +32,7 @@ ENG_HOURS=0
 C3_HOURS=0
 NEURO_HOURS=0
 HOLYOKE_HOURS=0
+SPHHS_HOURS=0
 TS_HOURS=0
 
 while getopts :hs:e: opt
@@ -117,6 +118,15 @@ do
 			fi
 						 ) | bc)
 
+		SPHHS_HOURS=$(echo $SPHHS_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/$FILE | grep SPHHS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then
+				echo $(cat /home/imstof/Documents/$FILE | grep SPHHS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						 ) | bc)
+
 		TS_HOURS=$(echo $TS_HOURS+$(
 			if [[ -n $(cat /home/imstof/Documents/$FILE | grep TS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
 			then
@@ -160,6 +170,15 @@ do
 			fi
 						) | bc)
 
+		SPHHS_HOURS=$(echo $SPHHS_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep SPHHS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then 
+				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep SPHHS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						) | bc)
+
 		TS_HOURS=$(echo $TS_HOURS+$(
 			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep TS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
 			then 
@@ -179,4 +198,5 @@ echo ENGAGING HOURS = $ENG_HOURS
 echo C3DDB HOURS = $C3_HOURS
 echo NEURO HOURS = $NEURO_HOURS
 echo HOLYOKE_HOURS = $HOLYOKE_HOURS
+echo SPHHS_HOURS = $SPHHS_HOURS
 echo TS_HOURS = $TS_HOURS
