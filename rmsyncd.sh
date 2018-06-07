@@ -26,9 +26,9 @@ do
 		fi
 		# check if laptop is connected. if not, add script to crontab to keep trying
 		echo "deleting directory from Klaptop-TS..."
-		if [[ -n $(ping -c1 192.168.13.151 | grep ' 0% packet loss') ]]
+		if [[ -n $(ping -c1 192.168.13.144 | grep ' 0% packet loss') ]]
 		then
-			if ssh 192.168.13.151 rm -r $file
+			if ssh 192.168.13.144 rm -r $file
 			then
 				echo "...deleted"
 			fi
@@ -75,9 +75,9 @@ do
 
 		# check if laptop is connected. if not, add script to crontab to keep trying
 		echo "deleting file from KLaptop-TS..."
-		if [[ -n $(ping -c1 192.168.13.151 | grep ' 0% packet loss') ]]
+		if [[ -n $(ping -c1 192.168.13.144 | grep ' 0% packet loss') ]]
 		then
-			if ssh 192.168.13.151 rm $file
+			if ssh 192.168.13.144 rm $file
 			then
 				echo "...deleted"
 			fi
