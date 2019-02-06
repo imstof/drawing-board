@@ -43,8 +43,13 @@ fi
 file=~/Documents/$now-cehnstrom
 
 echo "cehnstrom|$now $stime|$now ||TS|Y|N|email,misc" >> $file
+<<<<<<< HEAD
 echo "cehnstrom|$now $stime|$now ||HOME|Y|N|domestic_duties" >> $file
 echo "cehnstrom|$now |$now |0.75|HOME|Y|N|to_mghpcc" >> $file
+=======
+echo "cehnstrom|$now |$now ||HOME|Y|N|domestic duties" >> $file
+echo "cehnstrom|$now |$now |0.75|HOME|Y|N|to mghpcc" >> $file
+>>>>>>> 2cf0290f8ff8f382d3579ce89312528e9f248bf5
 echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
 echo "cehnstrom|$now |$now ||CDS|Y|N|logs" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|email,issues" >> $file
