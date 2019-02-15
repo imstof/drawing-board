@@ -47,7 +47,7 @@ echo "cehnstrom|$now |$now ||HOME|Y|N|domestic_duties" >> $file
 echo "cehnstrom|$now |$now |0.75|HOME|Y|N|to_mghpcc" >> $file
 echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
 echo "cehnstrom|$now |$now ||CDS|Y|N|logs" >> $file
-echo "cehnstrom|$now |$now ||TS|Y|N|email,issues" >> $file
+echo "cehnstrom|$now |$now ||TS|Y|N|email,misc" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||ENGAGING|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||ENGAGING|Y|N|" >> $file
