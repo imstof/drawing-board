@@ -34,6 +34,7 @@ NEURO_HOURS=0
 HOLYOKE_HOURS=0
 SPHHS_HOURS=0
 CDS_HOURS=0
+OTHER_HOURS=0
 TS_HOURS=0
 
 while getopts :hs:e: opt
@@ -137,6 +138,15 @@ do
 			fi
 						 ) | bc)
 
+		OTHER_HOURS=$(echo $OTHER_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then
+				echo $(cat /home/imstof/Documents/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						 ) | bc)
+
 		TS_HOURS=$(echo $TS_HOURS+$(
 			if [[ -n $(cat /home/imstof/Documents/$FILE | grep TS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
 			then
@@ -197,6 +207,15 @@ do
 			fi
 						) | bc)
 
+		OTHER_HOURS=$(echo $OTHER_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then 
+				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						) | bc)
+
 		TS_HOURS=$(echo $TS_HOURS+$(
 			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep TS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
 			then 
@@ -218,4 +237,5 @@ echo NEURO HOURS = $NEURO_HOURS
 echo HOLYOKE_HOURS = $HOLYOKE_HOURS
 echo SPHHS_HOURS = $SPHHS_HOURS
 echo CDS_HOURS = $CDS_HOURS
+echo OTHER_HOURS = $OTHER_HOURS
 echo TS_HOURS = $TS_HOURS
