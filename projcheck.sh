@@ -30,6 +30,7 @@ fi
 E_DATE=$(date +"%Y%m%d")
 ENG_HOURS=0
 C3_HOURS=0
+HPCHELP_HOURS=0
 NEURO_HOURS=0
 HOLYOKE_HOURS=0
 SPHHS_HOURS=0
@@ -102,6 +103,16 @@ do
 				echo 0
 			fi
 						 ) | bc)
+
+		HPCHELP_HOURS=$(echo $HPCHELP_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/$FILE | grep HELP | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then
+				echo $(cat /home/imstof/Documents/$FILE | grep HELP | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						 ) | bc)
+
 		NEURO_HOURS=$(echo $NEURO_HOURS+$(
 			if [[ -n $(cat /home/imstof/Documents/$FILE | grep NEURO | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
 			then
@@ -172,6 +183,16 @@ do
 				echo 0
 			fi
 						) | bc)
+
+		HPCHELP_HOURS=$(echo $HPCHELP_HOURS+$(
+			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep HELP | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			then 
+				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep HELP | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+			else
+				echo 0
+			fi
+						) | bc)
+
 		NEURO_HOURS=$(echo $NEURO_HOURS+$(
 			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep NEURO | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
 			then 
@@ -208,9 +229,9 @@ do
 						) | bc)
 
 		OTHER_HOURS=$(echo $OTHER_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep -v -e ENG -e C3 -e HPCHELP -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
 			then 
-				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep -v -e ENG -e C3 -e HPCHELP  -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
 			else
 				echo 0
 			fi
@@ -233,9 +254,12 @@ done
 
 echo ENGAGING HOURS = $ENG_HOURS
 echo C3DDB HOURS = $C3_HOURS
+echo HPCHELP_HOURS = $HPCHELP_HOURS
 echo NEURO HOURS = $NEURO_HOURS
 echo HOLYOKE_HOURS = $HOLYOKE_HOURS
 echo SPHHS_HOURS = $SPHHS_HOURS
 echo CDS_HOURS = $CDS_HOURS
 echo OTHER_HOURS = $OTHER_HOURS
 echo TS_HOURS = $TS_HOURS
+echo
+echo TOTAL_HOURS = $(echo $ENG_HOURS+$C3_HOURS+$HPCHELP_HOURS+$NEURO_HOURS+$HOLYOKE_HOURS+$SPHHS_HOURS+$CDS_HOURS+$OTHER_HOURS+$TS_HOURS | bc)
