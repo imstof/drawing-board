@@ -9,7 +9,12 @@ vim ~/Documents/$FILEDATE-cehnstrom
 echo
 vcheck "$1"
 echo
-read -p "Sync Documents folder? " yn
+read -t 30 -p "Sync Documents folder? " yn
+
+if [ -z "$yn" ]
+then
+	exit 0
+fi
 
 if [ $yn == "y" ]
 then
