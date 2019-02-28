@@ -2,7 +2,7 @@
 
 vim ~/notes
 
-read -p "Sync Documents folder? " yn
+read -t 10 -p "Sync Documents folder? " yn
 
 if [ -z "$yn" ]
 then
