@@ -150,9 +150,9 @@ do
 						 ) | bc)
 
 		OTHER_HOURS=$(echo $OTHER_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+			if [[ -n $(cat /home/imstof/Documents/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e HELP -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
 			then
-				echo $(cat /home/imstof/Documents/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+				echo $(cat /home/imstof/Documents/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e HELP -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
 			else
 				echo 0
 			fi
