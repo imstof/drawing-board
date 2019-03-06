@@ -19,6 +19,14 @@ show_help(){
 	echo
 }
 
+# grep hours for jobcode func
+# $1-path/file $2-hours_variable $3-grep_glob
+gethours(){
+	if [[ -e /home/imstof/Documents/$1 ]]
+	then
+		$2=$(echo $($2)
+##### working on this 3/6/19 ^^^^^^^
+
 # determine start and end dates. default 'last monday' and 'today'. or pulled from opts
 if [[ $(date +"%A") == "Monday" ]]
 then

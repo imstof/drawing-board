@@ -5,31 +5,33 @@
 echo "Confirm all hours are submitted"
 echo "==============================="
 
-while true
-do
-	read -p "Enter yyyy-mm: " chdate
-	if [[ -z $chdate ]]
-	then
-		chdate=$(date +"%Y-%m")
-	fi
-	if [[ -n $chdate ]]
-	then
-#work on year. auto or validate.
-		yr=${chdate:0:4}
-		if [[ ${chdate:5:1} -eq 0 ]]
-		then
-			mo=${chdate:6:1}
-		else
-			mo=${chdate:5:2}
-		fi
+#while true
+#do
+#	read -p "Enter yyyy-mm: " chdate
+#	if [[ -z $chdate ]]
+#	then
+#		chdate=$(date +"%Y-%m")
+#	fi
+#	if [[ -n $chdate ]]
+#	then
+##work on year. auto or validate.
+#		yr=${chdate:0:4}
+#		if [[ ${chdate:5:1} -eq 0 ]]
+#		then
+#			mo=${chdate:6:1}
+#		else
+#			mo=${chdate:5:2}
+#		fi
+#
+#		if [[ ${chdate:4:1} == "-" && $mo -gt 0 && $mo -lt 13 && $yr -gt 2015 ]]
+#		then
+#			break
+#		fi
+#	fi
+#	echo "Invalid entry"
+#done 
 
-		if [[ ${chdate:4:1} == "-" && $mo -gt 0 && $mo -lt 13 && $yr -gt 2015 ]]
-		then
-			break
-		fi
-	fi
-	echo "Invalid entry"
-done 
+
 
 case $mo in
 	1|3|5|7|8|10|12)
