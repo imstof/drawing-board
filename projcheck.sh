@@ -20,12 +20,22 @@ show_help(){
 }
 
 # grep hours for jobcode func
-# $1-path/file $2-hours_variable $3-grep_glob
+# arg1=search-string 
 gethours(){
-	if [[ -e /home/imstof/Documents/$1 ]]
+	FUNC_HRS=0
+	if [[ -e /home/imstof/Documents/$FILE ]]
 	then
-		$2=$(echo $($2)
-##### working on this 3/6/19 ^^^^^^^
+		if [[ -n $(cat /home/imstof/Documents/$FILE | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+		then
+			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat /home/imstof/Documents/$FILE | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
+		fi
+	elif [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+		then
+			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
+	fi
+	echo $FUNC_HRS
+}
+
 
 # determine start and end dates. default 'last monday' and 'today'. or pulled from opts
 if [[ $(date +"%A") == "Monday" ]]
@@ -37,15 +47,14 @@ fi
 
 E_DATE=$(date +"%Y%m%d")
 ENG_HOURS=0
+NEURO_HOURS=0
 C3_HOURS=0
 HPCHELP_HOURS=0
-NEURO_HOURS=0
 HOLYOKE_HOURS=0
 SPHHS_HOURS=0
 CDS_HOURS=0
-OTHER_HOURS=0
 TS_HOURS=0
-
+OTHER_HOURS=0 
 while getopts :hs:e: opt
 do
 	case $opt in
@@ -67,13 +76,9 @@ do
 	esac
 done
 
-#echo $S_DATE			#TEST
-#echo $E_DATE			#TEST
-
 #validate data and set file variables
 for cdate in $(seq $S_DATE $E_DATE)
 do
-#	if [[ $(echo $((10#${cdate:6:2}))) -gt 31 || $(echo $((10#${cdate:6:2}))) -lt 1 || -z $(echo $(date --date=$cdate 2>/dev/null)) ]]
 	if [[ -z $(date --date=$cdate 2>/dev/null) ]]
 	then
 		continue
@@ -85,179 +90,20 @@ do
 
 	if [[ ! -e /home/imstof/Documents/$FILE && ! -e /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE ]]
 	then
+		echo $FILE does not exist!
 		continue
 	fi
 
-#	echo $FILE		#TEST
-#	echo $YEAR		#TEST
-#	echo $MONTH		#TEST
+ENG_HOURS=$(echo $ENG_HOURS+$(gethours ENG) | bc)
+NEURO_HOURS=$(echo $NEURO_HOURS+$(gethours NEURO) | bc)
+C3_HOURS=$(echo $C3_HOURS+$(gethours C3) | bc)
+HPCHELP_HOURS=$(echo $HPCHELP_HOURS+$(gethours HELP) | bc)
+HOLYOKE_HOURS=$(echo $HOLYOKE_HOURS+$(gethours HOLY) | bc)
+SPHHS_HOURS=$(echo $SPHHS_HOURS+$(gethours SPHHS) | bc)
+CDS_HOURS=$(echo $CDS_HOURS+$(gethours CDS) | bc)
+TS_HOURS=$(echo $TS_HOURS+$(gethours TS) | bc)
+OTHER_HOURS=$(echo $OTHER_HOURS+$(gethours "-v -e ENG -e C3 -e HELP -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME") | bc)
 
-#grep FILE for hours
-	if [[ -e /home/imstof/Documents/$FILE ]]
-	then
-		ENG_HOURS=$(echo $ENG_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/$FILE | grep ENG | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then
-				echo $(cat /home/imstof/Documents/$FILE | grep ENG | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						 ) | bc)
-		C3_HOURS=$(echo $C3_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/$FILE | grep C3 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then
-				echo $(cat /home/imstof/Documents/$FILE | grep C3 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						 ) | bc)
-
-		HPCHELP_HOURS=$(echo $HPCHELP_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/$FILE | grep HELP | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then
-				echo $(cat /home/imstof/Documents/$FILE | grep HELP | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						 ) | bc)
-
-		NEURO_HOURS=$(echo $NEURO_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/$FILE | grep NEURO | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then
-				echo $(cat /home/imstof/Documents/$FILE | grep NEURO | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						 ) | bc)
-
-		HOLYOKE_HOURS=$(echo $HOLYOKE_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/$FILE | grep HOLYOKE | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then
-				echo $(cat /home/imstof/Documents/$FILE | grep HOLYOKE | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						 ) | bc)
-
-		SPHHS_HOURS=$(echo $SPHHS_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/$FILE | grep SPHHS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then
-				echo $(cat /home/imstof/Documents/$FILE | grep SPHHS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						 ) | bc)
-
-		CDS_HOURS=$(echo $CDS_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/$FILE | grep CDS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then
-				echo $(cat /home/imstof/Documents/$FILE | grep CDS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						 ) | bc)
-
-		OTHER_HOURS=$(echo $OTHER_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e HELP -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then
-				echo $(cat /home/imstof/Documents/$FILE | grep -v -e ENG -e C3 -e NEURO -e HOLY -e HELP -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						 ) | bc)
-
-		TS_HOURS=$(echo $TS_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/$FILE | grep TS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then
-				echo $(cat /home/imstof/Documents/$FILE | grep TS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						 ) | bc)
-	else
-		ENG_HOURS=$(echo $ENG_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep ENG | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then 
-				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep ENG | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						) | bc)
-		C3_HOURS=$(echo $C3_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep C3 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then 
-				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep C3 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						) | bc)
-
-		HPCHELP_HOURS=$(echo $HPCHELP_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep HELP | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then 
-				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep HELP | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						) | bc)
-
-		NEURO_HOURS=$(echo $NEURO_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep NEURO | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then 
-				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep NEURO | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						) | bc)
-
-		HOLYOKE_HOURS=$(echo $HOLYOKE_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep HOLYOKE | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then 
-				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep HOLYOKE | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						) | bc)
-
-		SPHHS_HOURS=$(echo $SPHHS_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep SPHHS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then 
-				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep SPHHS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						) | bc)
-		CDS_HOURS=$(echo $CDS_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep CDS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then 
-				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep CDS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						) | bc)
-
-		OTHER_HOURS=$(echo $OTHER_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep -v -e ENG -e C3 -e HELP -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then 
-				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep -v -e ENG -e C3 -e HELP  -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						) | bc)
-
-		TS_HOURS=$(echo $TS_HOURS+$(
-			if [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep TS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-			then 
-				echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep TS | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-			else
-				echo 0
-			fi
-						) | bc)
-	fi
-
-#echo $ENG_HOURS			#TEST
-#echo $C3_HOURS			#TEST
-	
 done
 
 echo ENGAGING HOURS = $ENG_HOURS
