@@ -19,19 +19,18 @@ show_help(){
 	echo
 }
 
-# grep hours for jobcode func
-# arg1=search-string 
+# grep hours for jobcode func. arg1=search-string 
 gethours(){
 	FUNC_HRS=0
-	if [[ -e /home/imstof/Documents/$FILE ]]
+	if [[ -e $FILE0 ]]
 	then
-		if [[ -n $(cat /home/imstof/Documents/$FILE | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+		if [[ -n $(cat $FILE0 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
 		then
-			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat /home/imstof/Documents/$FILE | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
+			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat $FILE0 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
 		fi
-	elif [[ -n $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+	elif [[ -n $(cat $FILE1 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
 		then
-			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
+			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat $FILE1 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
 	fi
 	echo $FUNC_HRS
 }
@@ -46,6 +45,7 @@ else
 fi
 
 E_DATE=$(date +"%Y%m%d")
+
 ENG_HOURS=0
 NEURO_HOURS=0
 C3_HOURS=0
@@ -59,10 +59,24 @@ while getopts :hs:e: opt
 do
 	case $opt in
 		s)
-			S_DATE=$(date --date="$OPTARG" +"%Y%m%d")
+			S_DATE=$(date --date="$OPTARG" +"%Y%m%d" 2>/dev/null)
+			if [[ -z $S_DATE ]]
+			then
+				echo
+				echo -n "Invalid date \"$OPTARG\""
+				show_help
+				exit 1
+			fi
 			;;
 		e)
-			E_DATE=$(date --date="$OPTARG" +"%Y%m%d")
+			E_DATE=$(date --date="$OPTARG" +"%Y%m%d" 2>/dev/null)
+			if [[ -z $E_DATE ]]
+			then
+				echo
+				echo -n "Invalid date \"$OPTARG\""
+				show_help
+				exit 1
+			fi
 			;;
 		h)
 			show_help
@@ -84,13 +98,13 @@ do
 		continue
 	fi
 
-	FILE="$(date --date=$cdate +"%Y-%m-%d")-cehnstrom"
-	YEAR=$(date --date=$cdate +"%Y")
-	MONTH=$(date --date=$cdate +"%m")
+	FILE0="/home/imstof/Documents/$(date --date=$cdate +"%Y-%m-%d")-cehnstrom"
+	FILE1="/home/imstof/Documents/Hours-$(date --date=$cdate +"%Y")/$(date --date=$cdate +"%m")/$(date --date=$cdate +"%Y-%m-%d")-cehnstrom"
+	
 
-	if [[ ! -e /home/imstof/Documents/$FILE && ! -e /home/imstof/Documents/Hours-$YEAR/$MONTH/$FILE ]]
+	if [[ ! -e $FILE0 && ! -e $FILE ]]
 	then
-		echo $FILE does not exist!
+		echo no file found for $(date --date=$cdate +"%Y-%m-%d")!
 		continue
 	fi
 
