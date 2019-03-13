@@ -19,33 +19,44 @@ show_help(){
 	echo
 }
 
+#func to grep field and paste to bc. arg1=search-string arg1=file
+findhours(){
+	grep $1 $2 | awk -F '$4 {printf $4"+"}' | sed 's/+$//' | bc
+}
+
 # grep hours for jobcode func. arg1=search-string 
 gethours(){
 	FUNC_HRS=0
-	if [[ -e $FILE0 ]]
-	then
-		if [[ -n $(cat $FILE0 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-		then
-			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat $FILE0 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
-		fi
-	elif [[ -n $(cat $FILE1 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-		then
-			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat $FILE1 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
-	fi
+#	if [[ -e $FILE0 ]]
+#	then
+#		if [[ -n $(cat $FILE0 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+#		then
+#			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat $FILE0 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
+#		fi
+#	elif [[ -n $(cat $FILE1 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
+#		then
+#			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat $FILE1 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
+#	fi
 	echo $FUNC_HRS
 }
 
+#only echo hours if non-zero func. arg1=hours_variable
+#showhours(){
+#	
+#}
 
 # determine start and end dates. default 'last monday' and 'today'. or pulled from opts
-if [[ $(date +"%A") == "Monday" ]]
-then
-	S_DATE=$(date +"%Y%m%d")
-else
-	S_DATE=$(date --date="last monday" +"%Y%m%d")
-fi
+#if [[ $(date +"%A") == "Monday" ]]
+#then
+#	S_DATE=$(date +"%Y%m%d")
+#else
+#	S_DATE=$(date --date="last monday" +"%Y%m%d")
+#fi
+[[ $(date +"%A") == "Monday" ]] && S_DATE=$(date +"%Y%m%d") || S_DATE=$(date --date="last monday" +"%Y%m%d")
 
 E_DATE=$(date +"%Y%m%d")
 
+TS_HOURS=0
 ENG_HOURS=0
 NEURO_HOURS=0
 C3_HOURS=0
@@ -53,7 +64,7 @@ HPCHELP_HOURS=0
 HOLYOKE_HOURS=0
 SPHHS_HOURS=0
 CDS_HOURS=0
-TS_HOURS=0
+JP_HOURS=0
 OTHER_HOURS=0 
 while getopts :hs:e: opt
 do
@@ -108,6 +119,7 @@ do
 		continue
 	fi
 
+TS_HOURS=$(echo $TS_HOURS+$(gethours TS) | bc)
 ENG_HOURS=$(echo $ENG_HOURS+$(gethours ENG) | bc)
 NEURO_HOURS=$(echo $NEURO_HOURS+$(gethours NEURO) | bc)
 C3_HOURS=$(echo $C3_HOURS+$(gethours C3) | bc)
@@ -115,11 +127,12 @@ HPCHELP_HOURS=$(echo $HPCHELP_HOURS+$(gethours HELP) | bc)
 HOLYOKE_HOURS=$(echo $HOLYOKE_HOURS+$(gethours HOLY) | bc)
 SPHHS_HOURS=$(echo $SPHHS_HOURS+$(gethours SPHHS) | bc)
 CDS_HOURS=$(echo $CDS_HOURS+$(gethours CDS) | bc)
-TS_HOURS=$(echo $TS_HOURS+$(gethours TS) | bc)
+JP_HOURS=$(echo $JP_HOURS+$(gethours JP) | bc)
 OTHER_HOURS=$(echo $OTHER_HOURS+$(gethours "-v -e ENG -e C3 -e HELP -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME") | bc)
 
 done
 
+echo TS_HOURS = $TS_HOURS
 echo ENGAGING HOURS = $ENG_HOURS
 echo C3DDB HOURS = $C3_HOURS
 echo HPCHELP_HOURS = $HPCHELP_HOURS
@@ -127,7 +140,7 @@ echo NEURO HOURS = $NEURO_HOURS
 echo HOLYOKE_HOURS = $HOLYOKE_HOURS
 echo SPHHS_HOURS = $SPHHS_HOURS
 echo CDS_HOURS = $CDS_HOURS
+echo JP_HOURS = $JP_HOURS
 echo OTHER_HOURS = $OTHER_HOURS
-echo TS_HOURS = $TS_HOURS
 echo
 echo TOTAL_HOURS = $(echo $ENG_HOURS+$C3_HOURS+$HPCHELP_HOURS+$NEURO_HOURS+$HOLYOKE_HOURS+$SPHHS_HOURS+$CDS_HOURS+$OTHER_HOURS+$TS_HOURS | bc)

@@ -1,29 +1,22 @@
 #!/bin/bash
 
-VARB=0
-
-# arg1=search_string arg2=value_of_variable like "$variable"
-testfunc(){
-#	echo $1
-#	echo $2
-	TEMP=$2
-	TEMP=$(echo $TEMP+1 | bc)
-	echo $TEMP
+#func to grep field and paste to bc. arg1=search-string arg1=file                                                         
+findhours(){
+        grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc
 }
 
-echo before...
-echo $VARB
-VARB=$(
-testfunc search-for-this "$VARB"
-)
-echo after!
-echo $VARB
+# grep hours for jobcode func. arg1=search-string 
+gethours(){
+        FUNC_HRS=0
+	FUNC_HRS=$(findhours ENG $FILE0)
+	echo $1 $FUNC_HRS
+}
 
-if [[ -n $VARB ]]
-then
-	echo yay
-elif [[ $VARB -eq "1" ]]
-then
-	echo YAY
+FILE0="/home/imstof/Documents/2019-03-12-cehnstrom"
 
-fi
+#echo $FILE0
+gethours ENG $FILE0
+gethours C3 $FILE0
+
+
+#grep ENG Documents/2019-03-12-cehnstrom | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//'
