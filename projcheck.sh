@@ -21,7 +21,7 @@ show_help(){
 
 #func to grep field and paste to bc. arg1=search-string arg1=file
 findhours(){
-	grep $1 $2 | awk -F '$4 {printf $4"+"}' | sed 's/+$//' | bc
+	grep $1 $2 | awk -F '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc
 }
 
 # grep hours for jobcode func. arg1=search-string 
