@@ -19,59 +19,41 @@ show_help(){
 	echo
 }
 
-#func to grep field and paste to bc. arg1=search-string arg1=file
-findhours(){
-	grep $1 $2 | awk -F '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc
-}
-
-# grep hours for jobcode func. arg1=search-string 
+# grep hours for jobcode func. arg1=search-string arg2=file
 gethours(){
 	FUNC_HRS=0
-#	if [[ -e $FILE0 ]]
-#	then
-#		if [[ -n $(cat $FILE0 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-#		then
-#			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat $FILE0 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
-#		fi
-#	elif [[ -n $(cat $FILE1 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc) ]]
-#		then
-#			FUNC_HRS=$(echo $FUNC_HRS+$(echo $(cat $FILE1 | grep $1 | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)) | bc)
-#	fi
+	        FUNC_HRS=$([ -n "$(grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc)" ] && grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc || echo 0)
 	echo $FUNC_HRS
 }
 
-#only echo hours if non-zero func. arg1=hours_variable
-#showhours(){
-#	
-#}
+[ $(date +%A) == "Monday" ] && S_DATE=$(date +%Y%m%d) || S_DATE=$(date -d "last monday" +%Y%m%d)
 
-# determine start and end dates. default 'last monday' and 'today'. or pulled from opts
-#if [[ $(date +"%A") == "Monday" ]]
-#then
-#	S_DATE=$(date +"%Y%m%d")
-#else
-#	S_DATE=$(date --date="last monday" +"%Y%m%d")
-#fi
-[[ $(date +"%A") == "Monday" ]] && S_DATE=$(date +"%Y%m%d") || S_DATE=$(date --date="last monday" +"%Y%m%d")
-
-E_DATE=$(date +"%Y%m%d")
+E_DATE=$(date +%Y%m%d)
 
 TS_HOURS=0
 ENG_HOURS=0
 NEURO_HOURS=0
 C3_HOURS=0
-HPCHELP_HOURS=0
+HPC_HOURS=0
 HOLYOKE_HOURS=0
 SPHHS_HOURS=0
 CDS_HOURS=0
 JP_HOURS=0
+
+# testing variables...
+#CODES="TS ENG NEURO C3 HPC HOLYOKE SPHHS CDS JP"
+#for code in $CODES
+#do
+#	$code_HOURS=0
+#done
+
 OTHER_HOURS=0 
 while getopts :hs:e: opt
 do
 	case $opt in
 		s)
-			S_DATE=$(date --date="$OPTARG" +"%Y%m%d" 2>/dev/null)
-			if [[ -z $S_DATE ]]
+			S_DATE=$(date -d "$OPTARG" +%Y%m%d 2>/dev/null)
+			if [ -z $S_DATE ]
 			then
 				echo
 				echo -n "Invalid date \"$OPTARG\""
@@ -80,8 +62,8 @@ do
 			fi
 			;;
 		e)
-			E_DATE=$(date --date="$OPTARG" +"%Y%m%d" 2>/dev/null)
-			if [[ -z $E_DATE ]]
+			E_DATE=$(date -d "$OPTARG" +%Y%m%d 2>/dev/null)
+			if [ -z $E_DATE ]
 			then
 				echo
 				echo -n "Invalid date \"$OPTARG\""
@@ -101,41 +83,51 @@ do
 	esac
 done
 
+#debugging here...
+#echo $S_DATE
+#echo $E_DATE
+#echo made it here 0
+
 #validate data and set file variables
 for cdate in $(seq $S_DATE $E_DATE)
 do
-	if [[ -z $(date --date=$cdate 2>/dev/null) ]]
-	then
-		continue
-	fi
+	[ -z "$(date -d $cdate 2>/dev/null)" ] && continue
 
-	FILE0="/home/imstof/Documents/$(date --date=$cdate +"%Y-%m-%d")-cehnstrom"
-	FILE1="/home/imstof/Documents/Hours-$(date --date=$cdate +"%Y")/$(date --date=$cdate +"%m")/$(date --date=$cdate +"%Y-%m-%d")-cehnstrom"
+	FILE0="/home/imstof/Documents/$(date -d $cdate +%Y-%m-%d)-cehnstrom"
+	FILE1="/home/imstof/Documents/Hours-$(date -d $cdate +%Y)/$(date -d $cdate +%m)/$(date -d $cdate +%Y-%m-%d)-cehnstrom"
 	
 
-	if [[ ! -e $FILE0 && ! -e $FILE ]]
-	then
-		echo no file found for $(date --date=$cdate +"%Y-%m-%d")!
-		continue
-	fi
+	[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo no file found for $(date -d $cdate +%Y-%m-%d)! && continue
 
-TS_HOURS=$(echo $TS_HOURS+$(gethours TS) | bc)
-ENG_HOURS=$(echo $ENG_HOURS+$(gethours ENG) | bc)
-NEURO_HOURS=$(echo $NEURO_HOURS+$(gethours NEURO) | bc)
-C3_HOURS=$(echo $C3_HOURS+$(gethours C3) | bc)
-HPCHELP_HOURS=$(echo $HPCHELP_HOURS+$(gethours HELP) | bc)
-HOLYOKE_HOURS=$(echo $HOLYOKE_HOURS+$(gethours HOLY) | bc)
-SPHHS_HOURS=$(echo $SPHHS_HOURS+$(gethours SPHHS) | bc)
-CDS_HOURS=$(echo $CDS_HOURS+$(gethours CDS) | bc)
-JP_HOURS=$(echo $JP_HOURS+$(gethours JP) | bc)
-OTHER_HOURS=$(echo $OTHER_HOURS+$(gethours "-v -e ENG -e C3 -e HELP -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME") | bc)
+#debugging here...
+#echo $FILE0
+#echo $FILE1
+#echo made it here 1
+
+[ -e $FILE0 ] && TS_HOURS=$(echo $TS_HOURS+$(gethours TS $FILE0) | bc) || TS_HOURS=$(echo $TS_HOURS+$(gethours TS $FILE1) | bc)
+
+#TS_HOURS=$(echo $TS_HOURS+$(gethours TS $FILE0) | bc)
+#ENG_HOURS=$(echo $ENG_HOURS+$(gethours ENG $FILE0) | bc)
+#NEURO_HOURS=$(echo $NEURO_HOURS+$(gethours NEURO $FILE0) | bc)
+#C3_HOURS=$(echo $C3_HOURS+$(gethours C3 $FILE0) | bc)
+#HPC_HOURS=$(echo $HPC_HOURS+$(gethours HPC $FILE0) | bc)
+#HOLYOKE_HOURS=$(echo $HOLYOKE_HOURS+$(gethours HOLY $FILE0) | bc)
+#SPHHS_HOURS=$(echo $SPHHS_HOURS+$(gethours SPHHS $FILE0) | bc)
+#CDS_HOURS=$(echo $CDS_HOURS+$(gethours CDS $FILE0) | bc)
+#JP_HOURS=$(echo $JP_HOURS+$(gethours JP $FILE0) | bc)
+#debugging here...
+#echo made it here 2
+OTHER_HOURS=$(echo $OTHER_HOURS+$(gethours "-v -e ENG -e C3 -e HPC -e NEURO -e HOLY -e SPHHS -e CDS -e TS -e LUNCH -e HOME" $FILE0) | bc)
+
+#debugging here...
+#echo made it here 3
 
 done
 
 echo TS_HOURS = $TS_HOURS
 echo ENGAGING HOURS = $ENG_HOURS
 echo C3DDB HOURS = $C3_HOURS
-echo HPCHELP_HOURS = $HPCHELP_HOURS
+echo HPC_HOURS = $HPC_HOURS
 echo NEURO HOURS = $NEURO_HOURS
 echo HOLYOKE_HOURS = $HOLYOKE_HOURS
 echo SPHHS_HOURS = $SPHHS_HOURS
@@ -143,4 +135,4 @@ echo CDS_HOURS = $CDS_HOURS
 echo JP_HOURS = $JP_HOURS
 echo OTHER_HOURS = $OTHER_HOURS
 echo
-echo TOTAL_HOURS = $(echo $ENG_HOURS+$C3_HOURS+$HPCHELP_HOURS+$NEURO_HOURS+$HOLYOKE_HOURS+$SPHHS_HOURS+$CDS_HOURS+$OTHER_HOURS+$TS_HOURS | bc)
+echo TOTAL_HOURS = $(echo $ENG_HOURS+$C3_HOURS+$HPC_HOURS+$NEURO_HOURS+$HOLYOKE_HOURS+$SPHHS_HOURS+$CDS_HOURS+$OTHER_HOURS+$TS_HOURS | bc)
