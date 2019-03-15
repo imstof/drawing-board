@@ -11,10 +11,19 @@ gethours(){
 
 sdate=20190312
 edate=20190313
+codes="TS C3 ENG"
+
+for code in $codes
+do
+tmphours=0
 
 for tmpdate in $(seq $sdate $edate)
 do
 	file0=/home/imstof/Documents/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom
 	file1=/home/imstof/Documents/Hours-$(date -d $tmpdate +%Y)/$(date -d $tmpdate +%m)/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom
-	[[ -e $file0 ]] && echo yay || echo $file1
+	tmphours=$(echo $tmphours+$(
+	[[ -e $file0 ]] && gethours $code $file0 || gethours $code $file1) | bc)
+done
+
+echo $code $tmphours
 done

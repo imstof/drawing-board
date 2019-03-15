@@ -21,33 +21,26 @@ show_help(){
 
 # grep hours for jobcode func. arg1=search-string arg2=file
 gethours(){
-	FUNC_HRS=0
-	        FUNC_HRS=$([ -n "$(grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc)" ] && grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc || echo 0)
-	echo $FUNC_HRS
+	        echo $([ -n "$(grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc)" ] && grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc || echo 0)
 }
 
 [ $(date +%A) == "Monday" ] && S_DATE=$(date +%Y%m%d) || S_DATE=$(date -d "last monday" +%Y%m%d)
 
 E_DATE=$(date +%Y%m%d)
 
-TS_HOURS=0
-ENG_HOURS=0
-NEURO_HOURS=0
-C3_HOURS=0
-HPC_HOURS=0
-HOLYOKE_HOURS=0
-SPHHS_HOURS=0
-CDS_HOURS=0
-JP_HOURS=0
+#TS_HOURS=0
+#ENG_HOURS=0
+#NEURO_HOURS=0
+#C3_HOURS=0
+#HPC_HOURS=0
+#HOLYOKE_HOURS=0
+#SPHHS_HOURS=0
+#CDS_HOURS=0
+#JP_HOURS=0
 
-# testing variables...
-#CODES="TS ENG NEURO C3 HPC HOLYOKE SPHHS CDS JP"
-#for code in $CODES
-#do
-#	$code_HOURS=0
-#done
-
+CODES="TS ENG NEURO C3 HPC HOLYOKE SPHHS CDS JP"
 OTHER_HOURS=0 
+
 while getopts :hs:e: opt
 do
 	case $opt in
@@ -89,22 +82,21 @@ done
 #echo made it here 0
 
 #validate data and set file variables
-for cdate in $(seq $S_DATE $E_DATE)
+for tmpdate in $(seq $S_DATE $E_DATE)
 do
-	[ -z "$(date -d $cdate 2>/dev/null)" ] && continue
+	[ -z "$(date -d $tmpdate 2>/dev/null)" ] && continue
 
-	FILE0="/home/imstof/Documents/$(date -d $cdate +%Y-%m-%d)-cehnstrom"
-	FILE1="/home/imstof/Documents/Hours-$(date -d $cdate +%Y)/$(date -d $cdate +%m)/$(date -d $cdate +%Y-%m-%d)-cehnstrom"
+	FILE0="/home/imstof/Documents/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
+	FILE1="/home/imstof/Documents/Hours-$(date -d $tmpdate +%Y)/$(date -d $tmpdate +%m)/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
 	
 
-	[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo no file found for $(date -d $cdate +%Y-%m-%d)! && continue
+	[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo no file found for $(date -d $tmpdate +%Y-%m-%d)! && continue
 
 #debugging here...
 #echo $FILE0
 #echo $FILE1
 #echo made it here 1
 
-[ -e $FILE0 ] && TS_HOURS=$(echo $TS_HOURS+$(gethours TS $FILE0) | bc) || TS_HOURS=$(echo $TS_HOURS+$(gethours TS $FILE1) | bc)
 
 #TS_HOURS=$(echo $TS_HOURS+$(gethours TS $FILE0) | bc)
 #ENG_HOURS=$(echo $ENG_HOURS+$(gethours ENG $FILE0) | bc)
