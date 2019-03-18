@@ -12,6 +12,7 @@ trap clean_up EXIT TERM INT
 
 S_DATE=20190312
 E_DATE=20190313
+OTHER_HOURS=0
 TOTAL_HOURS=0
 TMPFILE=$(mktemp /tmp/`basename $0`.XXX)
 
@@ -29,9 +30,11 @@ do
 		[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo "no file found for $(date -d $tmpdate +%Y-%m-%d)!" >> $TMPFILE && continue
 		TMPHRS=$(echo $TMPHRS+$(
 		[[ -e $FILE0 ]] && gethours $code $FILE0 || gethours $code $FILE1) | bc)
+		OTHER_HOURS=$(echo $OTHER_HOURS+$(
+		[[ -e $FILE0 ]] && gethours $(echo -v $code | sed 's/ / -e /') $FILE0 || gethours $(echo -v $code | sed 's/ / -e /') $FILE1) | bc)
 	done
 	echo "$code HOURS = $TMPHRS"
-	TOTAL_HOURS=$(echo $TOTAL_HOURS+$TMPHRS | bc)
+	TOTAL_HOURS=$(echo $TOTAL_HOURS+$TMPHRS+$OTHER_HOURS | bc)
 done
 
 echo TOTAL HOURS = $TOTAL_HOURS

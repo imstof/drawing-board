@@ -24,6 +24,7 @@ gethours(){
 	        echo $([ -n "$(grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc)" ] && grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc || echo 0)
 }
 
+#S_DATE last monday
 [ $(date +%A) == "Monday" ] && S_DATE=$(date +%Y%m%d) || S_DATE=$(date -d "last monday" +%Y%m%d)
 
 E_DATE=$(date +%Y%m%d)
@@ -40,6 +41,7 @@ E_DATE=$(date +%Y%m%d)
 
 CODES="TS ENG NEURO C3 HPC HOLYOKE SPHHS CDS JP"
 OTHER_HOURS=0 
+TOTAL_HOURS=0
 
 while getopts :hs:e: opt
 do
@@ -81,16 +83,19 @@ done
 #echo $E_DATE
 #echo made it here 0
 
+#loop through codes
+for code in $CODES
+
 #validate data and set file variables
-for tmpdate in $(seq $S_DATE $E_DATE)
-do
-	[ -z "$(date -d $tmpdate 2>/dev/null)" ] && continue
+		for tmpdate in $(seq $S_DATE $E_DATE)
+		do
+			[ -z "$(date -d $tmpdate 2>/dev/null)" ] && continue
 
-	FILE0="/home/imstof/Documents/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
-	FILE1="/home/imstof/Documents/Hours-$(date -d $tmpdate +%Y)/$(date -d $tmpdate +%m)/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
-	
+			FILE0="/home/imstof/Documents/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
+			FILE1="/home/imstof/Documents/Hours-$(date -d $tmpdate +%Y)/$(date -d $tmpdate +%m)/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
+			
 
-	[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo no file found for $(date -d $tmpdate +%Y-%m-%d)! && continue
+			[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo no file found for $(date -d $tmpdate +%Y-%m-%d)! && continue
 
 #debugging here...
 #echo $FILE0
@@ -116,15 +121,15 @@ OTHER_HOURS=$(echo $OTHER_HOURS+$(gethours "-v -e ENG -e C3 -e HPC -e NEURO -e H
 
 done
 
-echo TS_HOURS = $TS_HOURS
-echo ENGAGING HOURS = $ENG_HOURS
-echo C3DDB HOURS = $C3_HOURS
-echo HPC_HOURS = $HPC_HOURS
-echo NEURO HOURS = $NEURO_HOURS
-echo HOLYOKE_HOURS = $HOLYOKE_HOURS
-echo SPHHS_HOURS = $SPHHS_HOURS
-echo CDS_HOURS = $CDS_HOURS
-echo JP_HOURS = $JP_HOURS
-echo OTHER_HOURS = $OTHER_HOURS
+#echo TS_HOURS = $TS_HOURS
+#echo ENGAGING HOURS = $ENG_HOURS
+#echo C3DDB HOURS = $C3_HOURS
+#echo HPC_HOURS = $HPC_HOURS
+#echo NEURO HOURS = $NEURO_HOURS
+#echo HOLYOKE_HOURS = $HOLYOKE_HOURS
+#echo SPHHS_HOURS = $SPHHS_HOURS
+#echo CDS_HOURS = $CDS_HOURS
+#echo JP_HOURS = $JP_HOURS
+#echo OTHER_HOURS = $OTHER_HOURS
 echo
 echo TOTAL_HOURS = $(echo $ENG_HOURS+$C3_HOURS+$HPC_HOURS+$NEURO_HOURS+$HOLYOKE_HOURS+$SPHHS_HOURS+$CDS_HOURS+$OTHER_HOURS+$TS_HOURS | bc)
