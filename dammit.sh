@@ -23,6 +23,10 @@ do
 	file1=/home/imstof/Documents/Hours-$(date -d $tmpdate +%Y)/$(date -d $tmpdate +%m)/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom
 	tmphours=$(echo $tmphours+$(
 	[[ -e $file0 ]] && gethours $code $file0 || gethours $code $file1) | bc)
+	echo \"-v $(echo $codes | sed 's/ / -e /g')\"
+#	OTHER_HOURS=$(echo $OTHER_HOURS+$(
+#	[[ -e $FILE0 ]] && gethours $(echo \"-v $(echo $codes | sed 's/ / -e /')\") $FILE0 || gethours $(echo \"-v $(echo $codes | sed 's/ / -e /')\") $FILE1) | bc)
+
 done
 
 echo $code $tmphours
