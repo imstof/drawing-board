@@ -5,8 +5,8 @@ clean_up(){
 }
 
 gethours(){
-#echo $1 >> $TMPFILE
-#echo $2 >> $TMPFILE
+echo $1 >> $TMPFILE
+echo $2 >> $TMPFILE
         echo $([ -n "$(grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc)" ] && grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc || echo 0)
 }
 
