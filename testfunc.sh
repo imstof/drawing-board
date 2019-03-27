@@ -5,8 +5,6 @@ clean_up(){
 }
 
 gethours(){
-#echo $1 >> $TMPFILE	#test
-#echo $2 >> $TMPFILE	#test
         echo $([ -n "$(grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc)" ] && grep $1 $2 | awk -F'|' '$4 {printf $4"+"}' | sed 's/+$//' | paste | bc || echo 0)
 }
 
@@ -31,7 +29,6 @@ do
 		FILE0="/home/imstof/Documents/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
 		FILE1="/home/imstof/Documents/Hours-$(date -d $tmpdate +%Y)/$(date -d $tmpdate +%m)/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
 		[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo "no file found for $(date -d $tmpdate +%Y-%m-%d)!" >> $TMPFILE && continue
-		[[ ! -e $FILE0 && ! -e $FILE1 ]] && continue
 		TMPHRS=$(echo $TMPHRS+$(
 		[[ -e $FILE0 ]] && gethours $code $FILE0 || gethours $code $FILE1) | bc)
 	done
@@ -45,8 +42,6 @@ do
 	FILE0="/home/imstof/Documents/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
 	FILE1="/home/imstof/Documents/Hours-$(date -d $tmpdate +%Y)/$(date -d $tmpdate +%m)/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
 		[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo "no file found for $(date -d $tmpdate +%Y-%m-%d)!" >> $TMPFILE && continue
-	[[ ! -e $FILE0 && ! -e $FILE1 ]] && continue
-#	gethours "$OTHER" $FILE0	#test
 	OTHER_HOURS=$(echo $OTHER_HOURS+$(
 	[[ -e $FILE0 ]] && gethours "$OTHER" $FILE0 || gethours $(echo OTHER) $FILE1) | bc)
 	TOTAL_HOURS=$(echo $TOTAL_HOURS+$OTHER_HOURS | bc)
