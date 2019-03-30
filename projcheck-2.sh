@@ -46,9 +46,6 @@ TOTAL_HOURS=0
 TMPFILE0=$(mktemp /tmp/`basename $0`.XXX)
 TMPFILE1=$(mktemp /tmp/`basename $0`.XXX)
 
-echo $TMPFILE0	#test
-echo $TMPFILE1	#test
-
 while getopts :hs:e: opt
 do
 	case $opt in
@@ -120,5 +117,5 @@ done
 echo OTHER HOURS = $OTHER_HOURS
 echo
 echo TOTAL HOURS = $TOTAL_HOURS
-[[ -n $(cat $TMPFILE1) ]] && (echo;echo Other Hours:;cat $TMPFILE1 | uniq)
-[[ -n $(cat $TMPFILE0) ]] && (echo;echo Missing Files:;cat $TMPFILE0 | sort -t| -k5 -u)
+[[ -s $TMPFILE1 ]] && [[ -n $(cut -d'|' -f5 $TMPFILE1) ]] && (echo;echo Other Hours:;cat $TMPFILE1 | uniq)
+[[ -s $TMPFILE0 ]] && (echo;echo Missing Files:;cat $TMPFILE0 | sort -t| -k5 -u)
