@@ -1,89 +1,58 @@
 #!/bin/bash
 
-#Check to see if hours for all relevant days have been submitted on aquinas
+#imstof 3/29/19 rewrite
+#check if hours are submitted for given month
 
-echo "Confirm all hours are submitted"
-echo "==============================="
+#help
+help_func(){
+	echo "Usage: `basename $0` [option] ..."
+	echo
+	echo "  -m [month-to-check]"
+	echo "	(default = current month)"
+	echo
+	echo "  -h"
+	echo "	display this help and exit"
+}
 
-#while true
-#do
-#	read -p "Enter yyyy-mm: " chdate
-#	if [[ -z $chdate ]]
-#	then
-#		chdate=$(date +"%Y-%m")
-#	fi
-#	if [[ -n $chdate ]]
-#	then
-##work on year. auto or validate.
-#		yr=${chdate:0:4}
-#		if [[ ${chdate:5:1} -eq 0 ]]
-#		then
-#			mo=${chdate:6:1}
-#		else
-#			mo=${chdate:5:2}
-#		fi
-#
-#		if [[ ${chdate:4:1} == "-" && $mo -gt 0 && $mo -lt 13 && $yr -gt 2015 ]]
-#		then
-#			break
-#		fi
-#	fi
-#	echo "Invalid entry"
-#done 
-
-
-
-case $mo in
-	1|3|5|7|8|10|12)
-	 dayz=31
-	;;
-	4|6|9|11)
-	 dayz=30
-	;;
-	2)
-	 dayz=28
-	;;
-esac
-
-i=1
-while [ $i -le $dayz ]
+DATE_IN=$(date -d $(date +%m)/1 +%Y%m%d)
+#check if dates are valid and set month/year variables
+while getopts :hm: opt
 do
-	if [[ $i -lt 10 ]]
-	then
-		dy=0$i
-	else
-		dy=$i
-	fi
-	valdate=$chdate-$dy
-
-	if [[ $(date --date="$valdate" +"%a") != "Sat" && $(date --date="$valdate" +"%a") != "Sun" ]]
-	then
-		if [[ -e /projects/hours/$yr/$valdate-cehnstrom ]]
-		then
-			echo "checking "$valdate"-cehnstrom"
-			chHours=$(cat /projects/hours/$yr/$valdate-cehnstrom | /projects/clients/bin/hoursvalid.pl)
-			if [[ $chHours == "" ]]
+	case $opt in
+		m)
+			if [[ -z "$(echo $OPTARG/1 | xargs date -d 2>/dev/null)" ]]
 			then
-				echo "ok"
-			else
-				echo $(tput setaf 1)"ERROR"$(tput sgr 0)
-			fi
-		else
-			echo $valdate"-cehnstrom is " $(tput setaf 1)"MISSING!"$(tput sgr 0)
-		fi
-	else
-		if [[ -e /projects/hours/$yr/$valdate-cehnstrom ]]
-		then
-			echo "checking "$valdate"-cehnstrom" $(tput setaf 3)"WEEKEND"$(tput sgr 0)
-			chHours=$(cat /projects/hours/$yr/$valdate-cehnstrom | /projects/clients/bin/hoursvalid.pl)
-			if [[ $chHours == "" ]]
+				echo ERROR: invalid date $OPTARG
+				help_func && exit 1
+			elif [[ "$OPTARG" -gt "$(date +%m)" ]]
 			then
-				echo "ok"
+				DATE_IN=$(date -d $OPTARG/1/$(date -d "last year" +%Y) +%Y%m%d)
 			else
-				echo $(tput setaf 1)"ERROR"$(tput sgr 0)
+				DATE_IN=$(date -d $OPTARG/1 +%Y%m%d)
 			fi
-		fi
-	fi
+			;;
+		h)
+			echo check if hours are properly submitted for a given month
+			help_func
+			exit 0
+			;;
+		\?)
+			echo "ERROR: invalid option -$OPTARG"
+			help_func && exit 1
+			;;
+	esac
+done
 
-	((i++))
+echo $DATE_IN	#test
+
+#cycle through dates until end-of-month
+while [[ -n "$(date -d $DATE_IN 2>/dev/null)" ]]
+do
+	if [[ -e /projects/hours/$(date -d $DATE_IN _%Y%m%d)-cehnstrom ]]
+	then
+		((DATE_IN++))
+	else
+		echo Hours for $(date -d $DATE_IN +"%a %m/%d") are not submitted.
+		((DATE_IN++))
+	fi
 done
