@@ -48,7 +48,7 @@ echo $DATE_IN	#test
 #cycle through dates until end-of-month
 while [[ -n "$(date -d $DATE_IN 2>/dev/null)" ]]
 do
-	if [[ -e /projects/hours/$(date -d $DATE_IN _%Y%m%d)-cehnstrom ]]
+	if [[ -e /projects/hours/$(date -d $DATE_IN +%Y)/$(date -d $DATE_IN +%Y-%m-%d)-cehnstrom ]]
 	then
 		((DATE_IN++))
 	else
