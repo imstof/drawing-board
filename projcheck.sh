@@ -54,7 +54,7 @@ do
 			if [ -z $S_DATE ]
 			then
 				echo
-				echo -n "Invalid date \"$OPTARG\""
+				echo -n "Invalid date \"$OPTARG\"" 1>&2
 				show_help
 				exit 1
 			fi
@@ -64,7 +64,7 @@ do
 			if [ -z $E_DATE ]
 			then
 				echo
-				echo -n "Invalid date \"$OPTARG\""
+				echo -n "Invalid date \"$OPTARG\"" 1>&2
 				show_help
 				exit 1
 			fi
@@ -74,7 +74,7 @@ do
 			exit 0
 			;;
 		\?)
-			echo "Invalid option -$OPTARG"
+			echo "Invalid option -$OPTARG" 1>&2
 			echo "Try: '`basename $0` -h' for help"
 			exit 1
 			;;
