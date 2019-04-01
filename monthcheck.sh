@@ -22,7 +22,7 @@ do
 		m)
 			if [[ -z "$(echo $OPTARG/1 | xargs date -d 2>/dev/null)" ]]
 			then
-				echo ERROR: invalid date $OPTARG
+				echo ERROR: invalid date "$OPTARG" 1>&2
 				help_func && exit 1
 			elif [[ "$OPTARG" -gt "$(date +%m)" ]]
 			then
@@ -37,13 +37,13 @@ do
 			exit 0
 			;;
 		\?)
-			echo "ERROR: invalid option -$OPTARG"
+			echo ERROR: invalid option "-$OPTARG" 1>&2
 			help_func && exit 1
 			;;
 	esac
 done
 
-echo $DATE_IN	#test
+#echo $DATE_IN	#test
 
 #cycle through dates until end-of-month
 while [[ -n "$(date -d $DATE_IN 2>/dev/null)" ]]
