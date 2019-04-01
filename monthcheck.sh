@@ -50,6 +50,7 @@ while [[ -n "$(date -d $DATE_IN 2>/dev/null)" ]]
 do
 	if [[ -e /projects/hours/$(date -d $DATE_IN +%Y)/$(date -d $DATE_IN +%Y-%m-%d)-cehnstrom ]]
 	then
+		echo .
 		((DATE_IN++))
 	else
 		echo Hours for $(date -d $DATE_IN +"%a %m/%d") are not submitted.
