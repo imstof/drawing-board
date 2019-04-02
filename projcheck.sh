@@ -93,7 +93,7 @@ do
 		FILE1="/home/imstof/Documents/Hours-$(date -d $tmpdate +%Y)/$(date -d $tmpdate +%m)/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
 
 		#report missing files for date
-		[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo "no file found for $(date -d $tmpdate +%Y-%m-%d)!" >> $TMPFILE0 && continue
+		[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo "no file found for $(date -d $tmpdate +%a,%Y-%m-%d)!" >> $TMPFILE0 && continue
 		#check working file first, else check records
 		TMPHRS=$(echo $TMPHRS+$(
 		[[ -e $FILE0 ]] && gethours $code $FILE0 || gethours $code $FILE1) | bc)
@@ -108,7 +108,7 @@ do
 	[ -z "$(date -d $tmpdate 2>/dev/null)" ] && continue
 	FILE0="/home/imstof/Documents/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
 	FILE1="/home/imstof/Documents/Hours-$(date -d $tmpdate +%Y)/$(date -d $tmpdate +%m)/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
-		[[ ! -e $FILE0 && ! -e $FILE1 ]] && echo "no file found for $(date -d $tmpdate +%Y-%m-%d)!" >> $TMPFILE0 && continue
+		[[ ! -e $FILE0 && ! -e $FILE1 ]] && continue
 	OTHER_HOURS=$(echo $OTHER_HOURS+$(
 	[[ -e $FILE0 ]] && getother "$OTHER" $FILE0 || getother $(echo OTHER) $FILE1) | bc)
 	TOTAL_HOURS=$(echo $TOTAL_HOURS+$OTHER_HOURS | bc)
@@ -118,4 +118,4 @@ echo OTHER HOURS = $OTHER_HOURS
 echo
 echo TOTAL HOURS = $TOTAL_HOURS
 [[ -s $TMPFILE1 ]] && [[ -n $(cut -d'|' -f5 $TMPFILE1) ]] && (echo;echo Other Hours:;cat $TMPFILE1 | uniq)
-[[ -s $TMPFILE0 ]] && (echo;echo Missing Files:;cat $TMPFILE0 | sort -t'|' -k 5 -u)
+[[ -s $TMPFILE0 ]] && (echo;echo Missing Files:;cat $TMPFILE0 | sort -t'-' -k 3 | uniq)
