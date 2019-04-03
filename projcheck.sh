@@ -117,5 +117,5 @@ done
 echo OTHER HOURS = $OTHER_HOURS
 echo
 echo TOTAL HOURS = $TOTAL_HOURS
-[[ -s $TMPFILE1 ]] && [[ -n $(cut -d'|' -f5 $TMPFILE1) ]] && (echo;echo Other Hours:;cat $TMPFILE1 | uniq)
+[[ -s $TMPFILE1 ]] && [[ -n $(cut -d'|' -f5 $TMPFILE1) ]] && (echo;echo Other Hours:;cat $TMPFILE1 | sort -u)
 [[ -s $TMPFILE0 ]] && (echo;echo Missing Files:;cat $TMPFILE0 | sort -t'-' -k 3 | uniq)
