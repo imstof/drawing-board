@@ -15,6 +15,7 @@ echo $NORDPORT
 
 #sed /etc/NetworkManager/system-connections/foo to change ip/port
 #regex to replace line after match
-sed -i 'foo' /etc/NetworkManager/system-connections/nord-vpn
+sed -ri "s/^port=[0-9]{4,5}$/$NORDPORT/" /etc/NetworkManager/system-connections/nord-vpn
+sed -ri "s/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/$NORDIP/" /etc/NetworkManager/system-connections/nord-vpn
 
 #that should work?
