@@ -111,8 +111,8 @@ do
 		[[ ! -e $FILE0 && ! -e $FILE1 ]] && continue
 	OTHER_HOURS=$(echo $OTHER_HOURS+$(
 	[[ -e $FILE0 ]] && getother "$OTHER" $FILE0 || getother $(echo OTHER) $FILE1) | bc)
-	TOTAL_HOURS=$(echo $TOTAL_HOURS+$OTHER_HOURS | bc)
 done
+TOTAL_HOURS=$(echo $TOTAL_HOURS+$OTHER_HOURS | bc)
 
 echo OTHER HOURS = $OTHER_HOURS
 echo
