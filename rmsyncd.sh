@@ -25,10 +25,10 @@ do
 			echo "...failed"
 		fi
 		# check if laptop is connected. if not, add script to crontab to keep trying
-		echo "deleting directory from Klaptop-TS..."
-		if [[ -n $(ping -c1 192.168.13.144 | grep ' 0% packet loss') ]]
+		echo "deleting directory from FLaptopK1..."
+		if [[ -n $(ping -c1 192.168.13.29 | grep ' 0% packet loss') ]]
 		then
-			if ssh 192.168.13.144 rm -r $file
+			if ssh 192.168.13.29 rm -r $file
 			then
 				echo "...deleted"
 			fi
@@ -47,7 +47,7 @@ do
 			else
 				if crontab -l | sed "$ a\*\/1 7-18 * * 1-5 \/home\/imstof\/bin\/rmlapdircron $file" | crontab -
 				then
-					echo "...file will be deleted when KLaptop-TS is present"
+					echo "...file will be deleted when FLaptopK1 is present"
 				else
 					echo "...failed"
 				fi
@@ -75,9 +75,9 @@ do
 
 		# check if laptop is connected. if not, add script to crontab to keep trying
 		echo "deleting file from KLaptop-TS..."
-		if [[ -n $(ping -c1 192.168.13.144 | grep ' 0% packet loss') ]]
+		if [[ -n $(ping -c1 192.168.13.29 | grep ' 0% packet loss') ]]
 		then
-			if ssh 192.168.13.144 rm $file
+			if ssh 192.168.13.29 rm $file
 			then
 				echo "...deleted"
 			fi
