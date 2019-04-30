@@ -14,7 +14,7 @@ FILEDATE=$(date --date="$1" +"%Y-%m-%d")
 		exit 1
 	fi
 
-echo "file: "$FILE		#TEST
+#echo "file: "$FILE		#TEST
 
 ONCLOCK=$(cat $FILE | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
 OFFCLOCK=$(cat $FILE | grep -e HOME -e LUNCH | cut -d'|' -f4     | sed '/^$/d' | paste -sd+ | bc)
@@ -45,7 +45,7 @@ START=$(echo $(
 	done
 	echo $z
 ))
-echo "START="$START		#TEST
+#echo "START="$START		#TEST
 
 END=$(echo $(
 	z=00.00
@@ -61,11 +61,11 @@ END=$(echo $(
 	done
 	echo $z
 ))
-echo "END="$END			#TEST
+#echo "END="$END			#TEST
 
 HOURS=$(echo $END"-"$START | bc)
 
-echo "HOURS="$HOURS			#TEST
+#echo "HOURS="$HOURS			#TEST
 
 echo
 echo "On-The-Clock"
