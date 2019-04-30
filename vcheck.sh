@@ -29,7 +29,7 @@ then
 fi
 
 echo
-echo $FILEDATE
+echo $(date -d $FILEDATE +"%A %Y-%m-%d")
 
 START=$(echo $(
 	z=23.75
