@@ -110,7 +110,7 @@ do
 	FILE1="/home/imstof/Documents/Hours-$(date -d $tmpdate +%Y)/$(date -d $tmpdate +%m)/$(date -d $tmpdate +%Y-%m-%d)-cehnstrom"
 		[[ ! -e $FILE0 && ! -e $FILE1 ]] && continue
 	OTHER_HOURS=$(echo $OTHER_HOURS+$(
-	[[ -e $FILE0 ]] && getother "$OTHER" $FILE0 || getother $(echo OTHER) $FILE1) | bc)
+	[[ -e $FILE0 ]] && getother "$OTHER" $FILE0 || getother "$OTHER" $FILE1) | bc)
 done
 TOTAL_HOURS=$(echo $TOTAL_HOURS+$OTHER_HOURS | bc)
 
