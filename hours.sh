@@ -53,8 +53,8 @@ echo "cehnstrom|$now |$now ||HOLYOKE|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||NEURO|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||SPHHS|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||HPC/HELP|Y|N|c3ddb_user_help" >> $file
-echo "cehnstrom|$now |$now |||Y|N|" >> $file
 echo "cehnstrom|$now |$now ||LUNCH|Y|N|lunch" >> $file
+echo "cehnstrom|$now |$now |||Y|N|" >> $file
 
 if [ -z "$1" ]
 then
