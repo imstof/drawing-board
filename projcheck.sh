@@ -20,6 +20,8 @@ show_help(){
 	echo "	-e END DATE"
 	echo "		end date (default today)"
 	echo "		this can be a string in quotes. eg \"last friday\""
+	echo "  -d CHECK DATE"
+	echo "		check hours for only this date"
 	echo "	-h"
 	echo "		display this help and exit"
 	echo
@@ -46,7 +48,7 @@ TOTAL_HOURS=0
 TMPFILE0=$(mktemp /tmp/`basename $0`.XXX)
 TMPFILE1=$(mktemp /tmp/`basename $0`.XXX)
 
-while getopts :hs:e: opt
+while getopts :hs:e:d: opt
 do
 	case $opt in
 		s)
@@ -60,6 +62,17 @@ do
 			fi
 			;;
 		e)
+			E_DATE=$(date -d "$OPTARG" +%Y%m%d 2>/dev/null)
+			if [ -z $E_DATE ]
+			then
+				echo
+				echo -n "Invalid date \"$OPTARG\"" 1>&2
+				show_help
+				exit 1
+			fi
+			;;
+		d)
+			S_DATE=$(date -d "$OPTARG" +%Y%m%d 2>/dev/null)
 			E_DATE=$(date -d "$OPTARG" +%Y%m%d 2>/dev/null)
 			if [ -z $E_DATE ]
 			then
