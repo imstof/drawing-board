@@ -39,7 +39,7 @@ done
 PASS=$(echo $(shuf -i 1000-9999 -n1)-$(xkcdpass -d_ -C random $ACRO $MAX)-$(shuf -i 1000-9999 -n1))
 if [[ -n $LEN ]]
 then
-	echo ${PASS:0:$LEN}
+	echo ${PASS:2:$LEN}
 else
 	echo $PASS
 fi
