@@ -24,7 +24,8 @@ do
 			then
 				echo ERROR: invalid date "$OPTARG" 1>&2
 				help_func && exit 1
-			elif [[ "$OPTARG" -gt "$(date +%m)" ]]
+			#elif [[ "$OPTARG" -gt "$(date +%m)" ]]
+			elif [[ $(echo $OPTARG | sed 's/^0//') -gt $(echo $(date +%m) | sed 's/^0//') ]]
 			then
 				DATE_IN=$(date -d $OPTARG/1/$(date -d "last year" +%Y) +%Y%m%d)
 			else
