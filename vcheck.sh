@@ -16,8 +16,8 @@ FILEDATE=$(date --date="$1" +"%Y-%m-%d")
 
 #echo "file: "$FILE		#TEST
 
-ONCLOCK=$(cat $FILE | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
-OFFCLOCK=$(cat $FILE | grep -e HOME -e LUNCH | cut -d'|' -f4     | sed '/^$/d' | paste -sd+ | bc)
+ONCLOCK=$(cat $FILE | sed '/SICK/d' | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4 | sed '/^$/d' | paste -sd+ | bc)
+OFFCLOCK=$(cat $FILE | grep -e HOME -e SICK -e LUNCH | cut -d'|' -f4     | sed '/^$/d' | paste -sd+ | bc)
 
 if [[ -z $OFFCLOCK ]]
 then
@@ -70,7 +70,7 @@ HOURS=$(echo $END"-"$START | bc)
 echo
 echo "On-The-Clock"
 echo "Hours|Project|Notes"
-cat $FILE | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4,5,8 | awk -F'|' '$1!=""'
+cat $FILE | sed '/SICK/d' | sed '/HOME/d' | sed '/LUNCH/d' | cut -d'|' -f4,5,8 | awk -F'|' '$1!=""'
 
 echo
 
@@ -79,7 +79,7 @@ echo "Total On-The-Clock: "$ONCLOCK
 echo
 echo "Off-The-Clock"
 echo "Hours|Project|Notes"
-cat $FILE | grep -e HOME -e LUNCH | cut -d'|' -f4,5,8 | awk     -F'|' '$1!=""'
+cat $FILE | grep -e HOME -e SICK -e LUNCH | cut -d'|' -f4,5,8 | awk     -F'|' '$1!=""'
 echo
 echo "Total Off-The-Clock: "$OFFCLOCK
 echo
