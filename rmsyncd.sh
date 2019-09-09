@@ -26,9 +26,9 @@ do
 		fi
 		# check if laptop(s) are connected. if not, add script to crontab to keep trying
 		echo "deleting directory from FLaptopK1..."
-		if [[ -n $(ping -c1 192.168.13.29 | grep ' 0% packet loss') ]]
+		if [[ -n $(ping -c1 192.168.13.43 | grep ' 0% packet loss') ]]
 		then
-			if ssh 192.168.13.29 rm -r $file
+			if ssh 192.168.13.43 rm -r $file
 			then
 				echo "...deleted"
 			fi
@@ -56,7 +56,7 @@ do
 		echo "deleting directory from Poptop1..."
 		if [[ -n $(ping -c1 192.168.13.142 | grep ' 0% packet loss') ]]
 		then
-			if ssh 192.168.13.141 rm -r $file
+			if ssh 192.168.13.34 rm -r $file
 			then
 				echo "...deleted"
 			fi
@@ -104,9 +104,9 @@ do
 
 		# check if laptop(s) are connected. if not, add script to crontab to keep trying
 		echo "deleting file from FlaptopK1..."
-		if [[ -n $(ping -c1 192.168.13.29 | grep ' 0% packet loss') ]]
+		if [[ -n $(ping -c1 192.168.13.43 | grep ' 0% packet loss') ]]
 		then
-			if ssh 192.168.13.29 rm $file
+			if ssh 192.168.13.43 rm $file
 			then
 				echo "...deleted"
 			fi
@@ -132,9 +132,9 @@ do
 			fi
 		fi
 		echo "deleting file from PoptopK1..."
-		if [[ -n $(ping -c1 192.168.13.141 | grep ' 0% packet loss') ]]
+		if [[ -n $(ping -c1 192.168.13.34 | grep ' 0% packet loss') ]]
 		then
-			if ssh 192.168.13.141 rm $file
+			if ssh 192.168.13.34 rm $file
 			then
 				echo "...deleted"
 			fi
