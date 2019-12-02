@@ -4,7 +4,8 @@
 
 file=~/Documents/$(date --date="$1" +"%Y-%m-%d")-cehnstrom
 
-if [[ $(cat $file | /projects/clients/bin/hoursvalid.pl) == "" ]]
+#if [[ $(cat $file | /projects/clients/bin/hoursvalid.pl) == "" ]]
+if [[ $(/projects/hours/bin/validate-daily-hours-file $file) == "" ]]
 then
 	printf "\n\n"
 	echo "Nailed it!"
@@ -26,6 +27,7 @@ else
 	echo "Fix it!"
 	printf "\n"
 	echo $file
-	cat $file | /projects/clients/bin/hoursvalid.pl | grep \#
+#	cat $file | /projects/clients/bin/hoursvalid.pl | grep \#
+	/projects/hours/bin/validate-daily-hours-file $file
 	printf "\n\n"
 fi
