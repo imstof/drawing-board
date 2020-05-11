@@ -51,6 +51,7 @@ echo "cehnstrom|$now |$now ||ENGAGING|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||C3DDB|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||HPC/HELP|Y|N|c3ddb_user_help" >> $file
 echo "cehnstrom|$now |$now ||HOLYOKE|Y|N|" >> $file
+echo "cehnstrom|$now |$now ||MIT/EAPS/JP|Y|N|" >> $file
 #echo "cehnstrom|$now |$now ||NEURO|Y|N|" >> $file
 #echo "cehnstrom|$now |$now ||SPHHS|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||LUNCH|Y|N|lunch" >> $file
