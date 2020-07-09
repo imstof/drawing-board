@@ -41,8 +41,8 @@ getother(){
 [ $(date +%A) == "Monday" ] && S_DATE=$(date +%Y%m%d) || S_DATE=$(date -d "last monday" +%Y%m%d)
 
 E_DATE=$(date +%Y%m%d)
-CODES="TS ENG NEURO C3 HPC HOLYOKE SPHHS CDS JP"
-OTHER="-v -e HOME -e LUNCH -e TS -e ENG -e NEURO -e C3 -e HPC -e HOLYOKE -e SPHHS -e CDS -e JP"
+CODES="TS ENG NEURO C3 HPC HOLYOKE SPHHS CDS JP SATORI PTO"
+OTHER="-v -e HOME -e LUNCH -e TS -e ENG -e NEURO -e C3 -e HPC -e HOLYOKE -e SPHHS -e CDS -e JP -e SATORI -e PTO"
 OTHER_HOURS=0 
 TOTAL_HOURS=0
 TMPFILE0=$(mktemp /tmp/`basename $0`.XXX)
