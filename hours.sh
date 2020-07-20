@@ -43,16 +43,23 @@ fi
 file=~/Documents/$now-cehnstrom
 
 echo "cehnstrom|$now $stime|$now |0.25|TS|Y|N|email,misc" >> $file
-echo "cehnstrom|$now |$now ||HOME|Y|N|domestic_duties,to_mghpcc" >> $file
-echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
+echo "cehnstrom|$now |$now ||ENGAGING|Y|N|care&&feeding" >> $file
+echo "cehnstrom|$now |$now ||C3DDB|Y|N|care&&feeding" >> $file
+echo "cehnstrom|$now |$now ||HOME|Y|N|domestic_duties" >> $file
+#echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
 #echo "cehnstrom|$now |$now |0.25|CDS|Y|N|logs" >> $file
 echo "cehnstrom|$now |$now ||TS|Y|N|email,misc" >> $file
 echo "cehnstrom|$now |$now ||ENGAGING|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||C3DDB|Y|N|" >> $file
 echo "cehnstrom|$now |$now ||HPC/HELP|Y|N|c3ddb_user_help" >> $file
 echo "cehnstrom|$now |$now ||HOLYOKE|Y|N|" >> $file
+echo "cehnstrom|$now |$now ||MIT/EAPS/JP|Y|N|" >> $file
 #echo "cehnstrom|$now |$now ||NEURO|Y|N|" >> $file
 #echo "cehnstrom|$now |$now ||SPHHS|Y|N|" >> $file
+echo "cehnstrom|$now |$now ||SATORI|Y|N|" >> $file
+echo "cehnstrom|$now |$now ||PTO|Y|N|no_notes_req" >> $file
+echo "cehnstrom|$now |$now ||PTO/SICK|Y|N|no_notes_req" >> $file
+echo "cehnstrom|$now |$now ||PTO/DEPENDENT|Y|N|no_notes_req" >> $file
 echo "cehnstrom|$now |$now ||LUNCH|Y|N|lunch" >> $file
 echo "cehnstrom|$now |$now |||Y|N|" >> $file
 
