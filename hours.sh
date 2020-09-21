@@ -43,8 +43,9 @@ fi
 file=~/Documents/$now-cehnstrom
 
 echo "cehnstrom|$now $stime|$now |0.25|TS|Y|N|email,misc" >> $file
-echo "cehnstrom|$now |$now ||ENGAGING|Y|N|care&&feeding" >> $file
 echo "cehnstrom|$now |$now ||C3DDB|Y|N|care&&feeding" >> $file
+echo "cehnstrom|$now |$now ||ENGAGING|Y|N|care&&feeding" >> $file
+echo "cehnstrom|$now |$now ||SATORI|Y|N|care&&feeding" >> $file
 echo "cehnstrom|$now |$now ||HOME|Y|N|domestic_duties" >> $file
 #echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
 #echo "cehnstrom|$now |$now |0.25|CDS|Y|N|logs" >> $file
