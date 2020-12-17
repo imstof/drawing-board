@@ -35,6 +35,8 @@ then
 	exit 1
 fi
 
-[[ -n $wdate ]] && grep $wdate /home/imstof/.weechat/logs/python.t3chsquar3.slack.com.* | grep -ve general -ve m.wee | cut -d ':' -f2- | sort -u
+#[[ -n $wdate ]] && grep $wdate /home/imstof/.weechat/logs/python.t3chsquar3.slack.com.* | grep -ve general -ve m.wee | cut -d ':' -f2- | sort -u
+[[ -n $wdate ]] && grep $wdate /home/imstof/.weechat/logs/python.slack.t3chsquar3.*.weechatlog | grep -ve general -ve m.wee | cut -d ':' -f2- | sort -u
 
-[[ -n $wglob ]] && grep $wglob /home/imstof/.weechat/logs/python.t3chsquar3.slack.com.* | grep -ve general -ve m.wee | cut -d ':' -f2- | sort -u
+#[[ -n $wglob ]] && grep $wglob /home/imstof/.weechat/logs/python.t3chsquar3.slack.com.* | grep -ve general -ve m.wee | cut -d ':' -f2- | sort -u
+[[ -n $wglob ]] && grep $wglob /home/imstof/.weechat/logs/python.slack.t3chsquar3.*.weechatlog | grep -ve general -ve m.wee | cut -d ':' -f2- | sort -u
