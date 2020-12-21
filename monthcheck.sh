@@ -53,6 +53,10 @@ do
 	then
 		echo .
 		((DATE_IN++))
+	elif [[ -e ~/Documents/Hours-$(date -d $DATE_IN +%Y)/$(date -d $DATE_IN +%Y-%m-%d)-ceh    nstrom ]]
+	then
+		echo .
+		((DATE_IN++))
 	else
 		echo Hours for $(date -d $DATE_IN +"%a %m/%d") are not submitted.
 		((DATE_IN++))
