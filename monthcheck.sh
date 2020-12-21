@@ -53,7 +53,7 @@ do
 	then
 		echo .
 		((DATE_IN++))
-	elif [[ -e ~/Documents/Hours-$(date -d $DATE_IN +%Y)/$(date -d $DATE_IN +%Y-%m-%d)-ceh    nstrom ]]
+	elif [[ -e ~/Documents/Hours-$(date -d $DATE_IN +%Y)/$(date -d $DATE_IN +%Y-%m-%d)-cehnstrom ]]
 	then
 		echo .
 		((DATE_IN++))
