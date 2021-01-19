@@ -17,8 +17,8 @@ do
 		else
 			echo "...failed"
 		fi
-		echo "deleting directory from aquinas..."
-		if ssh cehnstrom@aquinas.techsquare.com rm -r $(echo $file | sed 's/imstof/cehnstrom/')
+		echo "deleting directory from aristotle..."
+		if ssh cehnstrom@aristotle.techsquare.com rm -r $(echo $file | sed 's/imstof/cehnstrom/')
 		then
 			echo "...deleted"
 		else
@@ -65,8 +65,8 @@ do
 		else
 			echo "...failed"
 		fi
-		echo "deleting file from aquinas..."
-		if ssh cehnstrom@aquinas.techsquare.com rm $(echo $file | sed 's/imstof/cehnstrom/')
+		echo "deleting file from aristotle..."
+		if ssh cehnstrom@aristotle.techsquare.com rm $(echo $file | sed 's/imstof/cehnstrom/')
 		then
 			echo "...deleted"
 		else
