@@ -7,13 +7,15 @@ helpfunc(){
 	echo "-a acrostic"
 	echo "-m max-length of words"
 	echo "-l max-length of output"
+	echo "-c use alternate special characters"
 	echo "-h display help"
 }
 
 ACRO=""
 MAX=""
+ALT=""
 
-while getopts :ha:m:l: opt
+while getopts :hca:m:l: opt
 do
 	case $opt in
 		a)
@@ -24,6 +26,9 @@ do
 			;;
 		l)
 			LEN="$OPTARG"
+			;;
+		c)
+			ALT="yes"
 			;;
 		h)
 			echo "generate an xkcd password with numbers"
@@ -36,7 +41,13 @@ do
 	esac
 done
 
-PASS=$(echo $(shuf -i 1000-9999 -n1)-$(xkcdpass -d_ -C random $ACRO $MAX)-$(shuf -i 1000-9999 -n1))
+if [[ -z $ALT ]]
+then
+	PASS=$(echo $(shuf -i 1000-9999 -n1)-$(xkcdpass -d_ -C random $ACRO $MAX)-$(shuf -i 1000-9999 -n1))
+else
+	PASS=$(echo $(shuf -i 1000-9999 -n1)^$(xkcdpass -d* -C random $ACRO $MAX)^$(shuf -i 1000-9999 -n1))
+fi
+
 if [[ -n $LEN ]]
 then
 	echo ${PASS:2:$LEN}
