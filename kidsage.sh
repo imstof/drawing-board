@@ -37,5 +37,5 @@ M25=$(date -d 3/25 +%j);while [[ ${M25:0:1} = 0 ]];do M25=${M25:1};done
 echo Isabel is $IAGE years old
 echo Theo is $TAGE years old
 
-echo Ladies and gentlemen... my $IAGE year-old.
-echo Ladies and gentlemen... my $TAGE year-old.
+echo Ladies and gentlemen... my ${IAGE:0:10} year-old.
+echo Ladies and gentlemen... my ${TAGE:0:10} year-old.
