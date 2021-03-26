@@ -15,8 +15,11 @@ NYEAR=$(date -d 12/31/$(date -d "next year" +%y) +%j)
 #theo
 #first reduce 0s from date
 M25=$(date -d 3/25 +%j);while [[ ${M25:0:1} = 0 ]];do M25=${M25:1};done
-#echo $M25			#TEST
-[[ $M25 -ge $TODAY ]] && TBDAY=$M25 && TYEARS=$(echo $(date -d "last year" +%Y)-2015 | bc) || (TBDAY=$(date -d 3/25/$(date -d "next year" +%y) +%j) && TYEARS=$(echo $(date +%Y)-2015 | bc ));while [[ ${TBDAY:0:1} = 0 ]];do TBDAY=${TBDAY:1};done
+#echo M25=$M25			#TEST
+[[ $M25 -ge $TODAY ]] && TBDAY=$M25 && TYEARS=$(echo $(date -d "last year" +%Y)-2015 | bc) || TBDAY=$(date -d 3/25/$(date -d "next year" +%y) +%j) && TYEARS=$(echo $(date +%Y)-2015 | bc );while [[ ${TBDAY:0:1} = 0 ]];do TBDAY=${TBDAY:1};done
+#[[ $M25 -ge $TODAY ]] && TBDAY=$M25 && TYEARS=$(echo $(date -d "last year" +%Y)-2015 | bc)
+#[[ $M25 -lt $TODAY ]] && TBDAY=$(date -d 3/25/$(date -d "next year" +%y) +%j) && TYEARS=$(echo $(date +%Y)-2015 | bc )
+#while [[ ${TBDAY:0:1} = 0 ]];do TBDAY=${TBDAY:1};done
 
 #echo LYEAR=$LYEAR		#TEST
 #echo TYEAR=$TYEAR		#TEST
