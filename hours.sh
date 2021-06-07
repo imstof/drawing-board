@@ -34,6 +34,8 @@ stime30=$(date -d @$incdate +%H:%M)
 stime45=$(date -d @$incdate +%H:%M)
 ((incdate=incdate+900))
 stime60=$(date -d @$incdate +%H:%M)
+((incdate=incdate+900))
+stime75=$(date -d @$incdate +%H:%M)
 
 #If no date given, current date. else $2
 if [ -z "$2" ]
@@ -53,10 +55,11 @@ fi
 
 file=~/Documents/$now-cehnstrom
 
-echo "cehnstrom|$now $stime|$now $stime15|0.25|TS|Y|N|email,misc" >> $file
-echo "cehnstrom|$now $stime15|$now $stime30|0.25|C3DDB|Y|N|care&&feeding" >> $file
-echo "cehnstrom|$now $stime30|$now $stime45|0.25|ENGAGING|Y|N|care&&feeding" >> $file
-echo "cehnstrom|$now $stime45|$now $stime60|0.25|SATORI|Y|N|care&&feeding" >> $file
+echo "cehnstrom|$now $stime|$now $stime15|0.25|HOLYOKE|Y|N|inproc,walkthrough" >> $file
+echo "cehnstrom|$now $stime15|$now $stime30|0.25|TS|Y|N|email,misc" >> $file
+echo "cehnstrom|$now $stime30|$now $stime45|0.25|C3DDB|Y|N|care&&feeding" >> $file
+echo "cehnstrom|$now $stime45|$now $stime60|0.25|ENGAGING|Y|N|care&&feeding" >> $file
+echo "cehnstrom|$now $stime60|$now $stime75|0.25|SATORI|Y|N|care&&feeding" >> $file
 echo "cehnstrom|$now |$now ||HOME|Y|N|domestic_duties" >> $file
 #echo "cehnstrom|$now |$now |0.25|HOLYOKE|Y|N|walkthrough" >> $file
 #echo "cehnstrom|$now |$now |0.25|CDS|Y|N|logs" >> $file
