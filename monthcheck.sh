@@ -56,6 +56,9 @@ do
 	elif [[ -e ~/Documents/Hours-$(date -d $DATE_IN +%Y)/$(date -d $DATE_IN +%m)/$(date -d $DATE_IN +%Y-%m-%d)-cehnstrom ]]
 	then
 		echo .
+	elif [[ -e /home/hours/cehnstrom/hoursapp/hours/.$(date -d $DATE_IN +%Y-%m-%d)-cehnstrom-released ]]
+	then
+		echo .
 		((DATE_IN++))
 	else
 		echo Hours for $(date -d $DATE_IN +"%a %m/%d") are not submitted.
